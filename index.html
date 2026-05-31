@@ -188,42 +188,50 @@
 
         <div class="form-row">
             <div class="form-group flex-1">
-                <label for="sacStili">Saç Şekli & Uzunluğu</label>
-                <select id="sacStili">
-                    <option value="long">Uzun & Düz</option>
-                    <option value="curly">Uzun & Kıvırcık</option>
-                    <option value="bob">Küt Kesim (Bob)</option>
-                    <option value="short">Kısa Tarz</option>
+                <label for="sacUzunluk">Saç Uzunluğu</label>
+                <select id="sacUzunluk">
+                    <option value="short">Kısa Saç</option>
+                    <option value="medium">Omuz Hizası Saç</option>
+                    <option value="long">Uzun Saç</option>
                 </select>
             </div>
             <div class="form-group flex-1">
-                <label for="sacRengi">Saç Rengi</label>
-                <select id="sacRengi">
-                    <option value="3c2417">Kahverengi (Brunette)</option>
-                    <option value="e9b872">Sarı (Blonde)</option>
-                    <option value="b83e25">Kızıl (Ginger)</option>
-                    <option value="1c1c1c">Siyah (Black)</option>
-                    <option value="cbd5e1">Platin/Gri (Silver)</option>
+                <label for="sacSekil">Saç Şekli</label>
+                <select id="sacSekil">
+                    <option value="straight">Düz</option>
+                    <option value="wavy">Dalgalı</option>
+                    <option value="curly">Kıvırcık</option>
                 </select>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group flex-1">
-                <label for="giyimTarzi">Giyim / Üst Tarzı</label>
+                <label for="giyimTarzi">Giyim Tarzı</label>
                 <select id="giyimTarzi">
-                    <option value="casual">Günlük Giyim</option>
-                    <option value="hoodie">Siber Hoodie</option>
-                    <option value="suit">Resmi Ceket/Blazer</option>
-                    <option value="cheongsam">Geleneksel / Stilize</option>
+                    <option value="resmi">Resmi (Blazer & Gömlek)</option>
+                    <option value="casual">Casual (Tişört/Günlük)</option>
+                    <option value="gothic">Gothic (Koyu/Siyah Temalı)</option>
+                    <option value="renkli">Renkli (Canlı Tonlar)</option>
                 </select>
             </div>
             <div class="form-group flex-1">
-                <label for="boyEtkisi">Boy / Aura Yapısı</label>
+                <label for="gozluk">Gözlük Filtresi</label>
+                <select id="gozluk">
+                    <option value="false">Yok</option>
+                    <option value="true">Var</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="boyEtkisi">Boy Skalası</label>
                 <select id="boyEtkisi">
-                    <option value="00ff66">Minyon (Yeşil Kadraj)</option>
-                    <option value="ffcc00">Orta Boy (Sarı Kadraj)</option>
-                    <option value="ff3333">Uzun Boy (Kırmızı Kadraj)</option>
+                    <option value="00ff66_150">1.50m - 1.60m (Yeşil Aura)</option>
+                    <option value="ffcc00_160">1.60m - 1.70m (Sarı Aura)</option>
+                    <option value="ffaa40_170">1.70m - 1.80m (Turuncu Aura)</option>
+                    <option value="ff3333_180">1.80m ve Üzeri (Kırmızı Aura)</option>
                 </select>
             </div>
         </div>
@@ -342,24 +350,28 @@
         let L = parseFloat(document.getElementById('lojistik').value);
         let R = parseFloat(document.getElementById('redflag').value);
         
-        // Yenilenmiş Fiziksel Parametreler
-        let sacStili = document.getElementById('sacStili').value;
-        let sacRengi = document.getElementById('sacRengi').value;
+        // Form Özellik Girdileri
+        let sacUzunluk = document.getElementById('sacUzunluk').value;
+        let sacSekil = document.getElementById('sacSekil').value;
         let giyim = document.getElementById('giyimTarzi').value;
-        let boyRengi = document.getElementById('boyEtkisi').value;
+        let gozlukDurumu = document.getElementById('gozluk').value;
+        
+        let boyHam = document.getElementById('boyEtkisi').value;
+        let boyRengi = boyHam.split("_")[0];
 
         let selectLig = document.getElementById('lig');
         let carpan = parseFloat(selectLig.value);
         let ligMetni = selectLig.options[selectLig.selectedIndex].text.split(" ->")[0];
 
-        if (!isim || isim.toLowerCase() === 'geç') isim = "Kayıtsız Hedef";
+        if (!isim || isim.toLowerCase() === 'geç') placeholderName = "Kayıtsız Hedef";
+        else placeholderName = isim;
 
         if (isNaN(G) || G < 1 || G > 10 || isNaN(O) || O < 1 || O > 10 || isNaN(L) || L < 1 || L > 10 || isNaN(R) || R < 1 || R > 10) {
             alert("🚨 HATA: Tüm parametreler 1.0 ile 10.0 arasında girilmelidir.");
             return;
         }
 
-        // Puan Hesaplamaları
+        // Skor Matrisi Hesaplamaları
         let pozitifSkor = (G * 0.5) + (O * 0.3) + (L * 0.2);
         let ceza = (R - 1) * 0.22; if (ceza < 0) ceza = 0;
         let hamSkor = pozitifSkor - ceza;
@@ -383,31 +395,50 @@
             aksiyon = "🎬 ELIZABETH OLSEN FILTRESI: Arkanıza yaslanıp film açın.";
         }
 
-        // --- %100 GERÇEKÇİ PARALEL DICEBEAR ENJEKSİYONU ---
-        // Seçimlerin boşa düşmemesi ve emoji çıkmaması için 'lorelei' (çizgi roman insanı) modelini parametrik besliyoruz.
-        // Benzersiz zaman damgası tarayıcı önbelleğini kırar, her tıklandığında anında güncellenmesini sağlar.
-        let benzersizZaman = Date.now();
-        let avatarUrl = `https://api.dicebear.com/9.x/lorelei/svg?hair=${sacStili}&hairColor=${sacRengi}&clothing=${giyim}&seed=${encodeURIComponent(isim)}_${benzersizZaman}`;
+        // --- %100 UYUMLU PARALEL DICEBEAR AVATAAARS ENTEGRASYONU ---
+        // Avataaars kütüphanesinin tanıdığı parametrik eşlemeleri dinamik olarak yapıyoruz
+        let topType = "LongHairStraight"; // Varsayılan
+        if(sacUzunluk === 'short') {
+            topType = (sacSekil === 'curly') ? "ShortHairCurly" : "ShortHairShortWaved";
+        } else if(sacUzunluk === 'medium') {
+            topType = "LongHairBob";
+        } else if(sacUzunluk === 'long') {
+            topType = (sacSekil === 'curly') ? "LongHairCurly" : (sacSekil === 'wavy' ? "LongHairBigHair" : "LongHairStraight");
+        }
 
-        // Arayüze Enjekte Etme
+        // Giyim Eşlemesi
+        let clotheType = "BlazerShirt"; 
+        let clotheColor = "65c9ff"; 
+        if(giyim === 'casual') { clotheType = "GraphicShirt"; }
+        else if(giyim === 'gothic') { clotheType = "Hoodie"; clotheColor = "262626"; }
+        else if(giyim === 'renkli') { clotheType = "Overall"; clotheColor = "ff5c5c"; }
+
+        // Gözlük Karşılığı
+        let glassesType = (gozlukDurumu === 'true') ? "Round" : "Blank";
+
+        // Önbellek Kırıcı Zaman Kilidi ile URL Dağıtımı
+        let tazeZaman = Date.now();
+        let avatarUrl = `https://api.dicebear.com/9.x/avataaars/svg?top=${topType}&clotheType=${clotheType}&clotheColor=${clotheColor}&accessories=${glassesType}&seed=${encodeURIComponent(placeholderName)}_${tazeZaman}`;
+
+        // Görseli DOM'a Basma
         let avatarImg = document.getElementById('resAvatar');
         let avatarWrapper = document.getElementById('avatarBg');
         avatarImg.src = avatarUrl;
         
-        // Aura rengi ataması
+        // Boy Aura Enjeksiyonu
         avatarWrapper.style.backgroundColor = `#${boyRengi}`; 
         avatarWrapper.style.boxShadow = `0 0 20px #${boyRengi}`;
 
-        document.getElementById('resIsim').innerText = isim.toUpperCase();
+        document.getElementById('resIsim').innerText = placeholderName.toUpperCase();
         document.getElementById('resKriterler').innerHTML = `Görsel: <b>${G}</b> | Özgüven: <b>${O}</b> | Lojistik: <b>${L}</b> | <span style="color:var(--danger-red)">RF: <b>${R}</b></span>`;
         document.getElementById('resLig').innerText = `${ligMetni} (Analist: ${op})`;
         let resFinal = document.getElementById('resFinal'); resFinal.innerText = `🎯 K-F ENDEKSİ: ${finalPuan} / 10`; resFinal.style.color = finalRenk;
         document.getElementById('resAksiyon').innerText = aksiyon; document.getElementById('resultPanel').style.display = "block";
 
-        // Firebase Havuzuna gönderim
-        bulutaKaydet(isim, finalPuan, finalRenk, op, R, avatarUrl);
+        // Havuza Eşleme Gönderme
+        bulutaKaydet(placeholderName, finalPuan, finalRenk, op, R, avatarUrl);
 
-        // Form temizleme
+        // Form resetleme
         document.getElementById('isim').value = ""; document.getElementById('safPuan').value = "";
         document.getElementById('ozguven').value = ""; document.getElementById('lojistik').value = ""; document.getElementById('redflag').value = "";
     }
@@ -440,7 +471,7 @@
             let kaanSayac = 0; let furkanSayac = 0;
 
             kayitlar.forEach(item => {
-                let gosterilecekAvatar = item.avatarUrl ? item.avatarUrl : `https://api.dicebear.com/9.x/lorelei/svg?seed=${item.ad}`;
+                let gosterilecekAvatar = item.avatarUrl ? item.avatarUrl : `https://api.dicebear.com/9.x/avataaars/svg?seed=${item.ad}`;
 
                 let htmlIcerik = `
                     <div class="archive-item" style="border-left-color: ${item.renk}">
