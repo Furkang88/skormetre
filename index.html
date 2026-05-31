@@ -250,7 +250,6 @@
     
     <div class="section-wrapper" style="padding: 0;">
         
-        <!-- SEKME 1: STANDART GİRİŞ PANELİ -->
         <div id="standardTab" class="tab-content active">
             <div class="form-row">
                 <div class="form-group flex-1">
@@ -305,7 +304,6 @@
             <button class="btn-submit" onclick="matrisiHesapla(false)">Matrisi Tetikle & Buluta Gönder</button>
         </div>
 
-        <!-- SEKME 2: PREMIUM PROFILER PANELİ -->
         <div id="premiumTab" class="tab-content">
             <div class="avatar-preview-box">
                 <div class="avatar-holder">
@@ -323,7 +321,7 @@
                 </div>
                 <div class="form-group flex-1">
                     <label for="p_isim">Hedef Kod Adı</label>
-                    <input type="text" id="p_isim" placeholder="Örn: Selin">
+                    <input type="text" id="p_isim" placeholder="Örn: Selin" onkeyup="renderLiveAvatar()">
                 </div>
             </div>
 
@@ -418,7 +416,6 @@
             <button class="btn-submit" style="border-color: #ffaa40; color: #ffaa40;" onclick="matrisiHesapla(true)">👑 Premium Analizi Tetikle</button>
         </div>
 
-        <!-- ORTAK ANALİZ ÇIKTI ALANI -->
         <div style="padding: 0 25px 25px 25px;">
             <div class="result-panel" id="resultPanel">
                 <div class="result-title">📊 Bulut Çıktı Raporu</div>
@@ -431,7 +428,6 @@
             </div>
         </div>
 
-        <!-- CANLI ARŞİV PANELİ -->
         <div class="archive-section">
             <div class="archive-header">
                 <div class="archive-title">🗄️ Canlı Ortak Veri Havuzu</div>
@@ -492,8 +488,11 @@
         btn.classList.add('active');
     }
 
-    // ARKA PLANDA HATASIZ ÇALIŞAN DICEBEAR ENTEGRASYON MOTORU
-    function getDiceBearUrl(sRenk, sUzunluk, sSekil, gozluk, giyim) {
+    // DİNAMİK SEED SİSTEMLİ DICEBEAR MOTORU
+    function getDiceBearUrl(sRenk, sUzunluk, sSekil, gozluk, giyim, seed) {
+        // DÜZELTME: Eğer isim girilmemişse varsayılan bir şifre ata, girilmişse ismi şifre yap!
+        let avatarSeed = seed && seed.trim() !== "" ? encodeURIComponent(seed.trim().toUpperCase()) : "FKNetwork";
+
         let hairColor = "black";
         if(sRenk === "Kahve") hairColor = "brown";
         if(sRenk === "Sarı") hairColor = "blonde";
@@ -522,7 +521,9 @@
         else { clothing = "shirtCrewNeck"; clothingColor = "pastelGreen"; } 
 
         let acc = gozluk === "Var" ? "&accessories=prescription02&accessoriesProbability=100" : "&accessoriesProbability=0";
-        let baseUrl = `https://api.dicebear.com/8.x/avataaars/svg?seed=FKNetwork&backgroundColor=transparent&skinColor=light,pale&mouth=smile,twinkle&eyes=default,happy`;
+        
+        // DÜZELTME: seed=${avatarSeed} yapılarak her isme özel, klon olmayan yüz hatları sağlandı.
+        let baseUrl = `https://api.dicebear.com/8.x/avataaars/svg?seed=${avatarSeed}&backgroundColor=transparent&skinColor=pale&mouth=smile&eyes=happy`;
         
         return `${baseUrl}&top=${top}&hairColor=${hairColor}&clothing=${clothing}&clothingColor=${clothingColor}${acc}`;
     }
@@ -533,10 +534,10 @@
         let sSekil = document.getElementById('p_saçŞekil').value;
         let gozluk = document.getElementById('p_gozluk').value;
         let giyim = document.getElementById('p_giyim').value;
+        let nameSeed = document.getElementById('p_isim').value; // İsim alanındaki metni anlık olarak yakala
         
-        let url = getDiceBearUrl(sRenk, sUzunluk, sSekil, gozluk, giyim);
+        let url = getDiceBearUrl(sRenk, sUzunluk, sSekil, gozluk, giyim, nameSeed);
         let img = document.getElementById('avatarImage');
-        img.src = ""; 
         img.src = url;
     }
 
@@ -615,7 +616,7 @@
         .then(() => arsiviListele());
     }
 
-    // SÜTUN AYRIMI VE GÖRSEL YÜKLENME HATALARI ÇÖZÜLMÜŞ ARŞİV MOTORU
+    // SÜTUN AYRIMI VE İSME ÖZEL ARŞİV AVATAR GEÇİŞ MOTORU
     function arsiviListele() {
         fetch(DB_URL)
         .then(res => res.json())
@@ -641,9 +642,10 @@
                     let saçPartları = parts[1].split("-");
                     let gozlukDurumu = parts[2].split(":")[1];
                     let giyimTarzı = parts[3] || "Casual";
-                    avatarUrl = getDiceBearUrl(saçPartları[2], saçPartları[0], saçPartları[1], gozlukDurumu, giyimTarzı);
+                    // DÜZELTME: Arşiv listelenirken de seed olarak kızın kendi adı (item.ad) gönderildi!
+                    avatarUrl = getDiceBearUrl(saçPartları[2], saçPartları[0], saçPartları[1], gozlukDurumu, giyimTarzı, item.ad);
                 } else {
-                    avatarUrl = getDiceBearUrl("Siyah", "Kısa", "Düz", "Yok", "Casual");
+                    avatarUrl = getDiceBearUrl("Siyah", "Kısa", "Düz", "Yok", "Casual", item.ad);
                 }
 
                 let htmlIcerik = `
