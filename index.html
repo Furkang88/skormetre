@@ -277,8 +277,10 @@
         setInterval(drawMatrix, 30);
     } catch(e) { console.log("Canvas animation bypassed for compatibility."); }
 
-    // --- SECURE FIREBASE CLOUD REALTIME DATABASE ---
-    const DB_URL = "https://kf-skoremetre-default-rtdb.europe-west1.firebasedatabase.app/arsiv.json";
+    // --- KENDİ ÜCRETSİZ FIREBASE URL BAĞLANTIN ---
+    // Örn: "https://fk-network-default-rtdb.firebaseio.com/arsiv.json" şeklinde olmalı
+    const DB_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com//arsiv.json";
+    const BASE_DELETE_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com//arsiv/";
 
     window.onload = function() { arsiviListele(); setInterval(arsiviListele, 5000); };
 
@@ -364,7 +366,6 @@
             let kaanSayac = 0; let furkanSayac = 0;
 
             kayitlar.forEach(item => {
-                let opIsim = item.operator ? item.operator.split(" ")[1] : "BİLİNMEYEN";
                 let htmlIcerik = `
                     <div class="archive-item" style="border-left-color: ${item.renk}">
                         <div class="archive-info">
@@ -387,12 +388,12 @@
 
             if(kaanSayac === 0) kaanDiv.innerHTML = `<div style="color: var(--text-muted); font-size:0.75rem; text-align:center; padding:10px;">Kayıt Yok</div>`;
             if(furkanSayac === 0) furkanDiv.innerHTML = `<div style="color: var(--text-muted); font-size:0.75rem; text-align:center; padding:10px;">Kayıt Yok</div>`;
-        }).catch(err => console.log("Cloud read sync error. Re-trying..."));
+        }).catch(err => console.log("Cloud sync..."));
     }
 
     function buluttanSil(key) {
         if (confirm("Bu kaydı ortak buluttan kalıcı olarak silmek istiyor musunuz?")) {
-            fetch(`https://kf-skoremetre-default-rtdb.europe-west1.firebasedatabase.app/arsiv/${key}.json`, { method: 'DELETE' })
+            fetch(BASE_DELETE_URL + key + ".json", { method: 'DELETE' })
             .then(() => arsiviListele());
         }
     }
