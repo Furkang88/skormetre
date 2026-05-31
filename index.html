@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-F MATRIX NETWORK v8.7</title>
+    <title>K-F MATRIX NETWORK v8.8</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Orbitron:wght@500;800&display=swap');
 
@@ -11,8 +11,8 @@
             --bg-black: #030305;
             --matrix-green: #00ff66;
             --matrix-glow: rgba(0, 255, 102, 0.35);
-            --panel-bg: rgba(10, 15, 12, 0.8);
-            --panel-border: rgba(0, 255, 102, 0.2);
+            --panel-bg: #0a0f0c;
+            --panel-border: rgba(0, 255, 102, 0.3);
             --text-white: #ffffff;
             --text-muted: #70a080;
             --danger-red: #ff3333;
@@ -24,11 +24,10 @@
 
         canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             z-index: -1;
+            background-color: var(--bg-black);
         }
 
         body {
@@ -46,34 +45,21 @@
 
         .container {
             background: var(--panel-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             width: 100%;
-            max-width: 650px; /* Sütunlar için genişlik biraz artırıldı */
+            max-width: 650px;
             border-radius: 20px;
             box-shadow: 0 0 40px rgba(0, 255, 102, 0.15);
             border: 1px solid var(--panel-border);
             overflow: hidden;
-            animation: terminalBoot 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        @keyframes terminalBoot {
-            from { opacity: 0; transform: scale(0.95); filter: blur(5px); }
-            to { opacity: 1; transform: scale(1); filter: blur(0); }
+            position: relative;
+            z-index: 10;
         }
 
         .header {
-            background: rgba(5, 8, 6, 0.9);
+            background: #050806;
             padding: 25px 20px;
             text-align: center;
             border-bottom: 1px solid var(--panel-border);
-            position: relative;
-        }
-
-        .header::after {
-            content: ''; position: absolute; bottom: -1px; left: 10%; width: 80%; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--matrix-green), transparent);
-            box-shadow: 0 0 10px var(--matrix-green);
         }
 
         .header h1 {
@@ -89,19 +75,19 @@
 
         label {
             font-size: 0.8rem; font-weight: bold; color: var(--matrix-green);
-            margin-bottom: 8px; letter-spacing: 1px; text-shadow: 0 0 5px rgba(0, 255, 102, 0.3);
+            margin-bottom: 8px; letter-spacing: 1px;
         }
 
         label span { color: var(--text-white); opacity: 0.7; font-size: 0.75rem; }
-        label .red-span { color: var(--danger-red); text-shadow: 0 0 5px var(--danger-red); }
+        label .red-span { color: var(--danger-red); }
 
         input, select {
-            background: rgba(5, 5, 8, 0.85); border: 1px solid rgba(0, 255, 102, 0.2);
+            background: #050508; border: 1px solid rgba(0, 255, 102, 0.3);
             color: #fff; padding: 14px 16px; border-radius: 10px; font-size: 0.95rem;
-            font-family: 'Fira Code', monospace; outline: none; transition: all 0.3s ease;
+            font-family: 'Fira Code', monospace; outline: none; box-sizing: border-box;
         }
 
-        input:focus, select:focus { border-color: var(--matrix-green); box-shadow: 0 0 15px var(--matrix-glow); background: rgba(10, 15, 12, 0.95); }
+        input:focus, select:focus { border-color: var(--matrix-green); box-shadow: 0 0 15px var(--matrix-glow); }
 
         select {
             appearance: none;
@@ -112,18 +98,15 @@
         .btn-submit {
             background: transparent; color: var(--matrix-green); border: 1px solid var(--matrix-green);
             padding: 16px; font-size: 1.05rem; font-weight: bold; font-family: 'Orbitron', sans-serif;
-            border-radius: 12px; cursor: pointer; width: 100%; transition: all 0.3s ease;
-            text-transform: uppercase; margin-top: 10px; letter-spacing: 1px;
+            border-radius: 12px; cursor: pointer; width: 100%; text-transform: uppercase; margin-top: 10px; letter-spacing: 1px;
         }
 
-        .btn-submit:hover { background: var(--matrix-green); color: var(--bg-black); box-shadow: 0 0 25px var(--matrix-green); transform: translateY(-1px); }
+        .btn-submit:hover { background: var(--matrix-green); color: var(--bg-black); box-shadow: 0 0 25px var(--matrix-green); }
 
         .result-panel {
-            background: rgba(3, 5, 4, 0.9); border-radius: 14px; padding: 22px; border: 1px solid var(--matrix-green);
-            margin-top: 25px; display: none; animation: panelSlide 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            background: #030504; border-radius: 14px; padding: 22px; border: 1px solid var(--matrix-green); margin-top: 25px; display: none;
         }
 
-        @keyframes panelSlide { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .result-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: bold; color: var(--matrix-green); margin-bottom: 15px; border-bottom: 1px solid rgba(0, 255, 102, 0.2); padding-bottom: 10px; }
         .result-item { margin: 8px 0; font-size: 0.95rem; color: var(--text-muted); }
         .result-item b { color: #fff; }
@@ -136,7 +119,300 @@
 
         .action-plan { margin-top: 10px; line-height: 1.6; font-size: 0.9rem; color: #ffaa40; background: rgba(255, 170, 64, 0.05); padding: 14px; border-radius: 8px; border-left: 3px solid #ffaa40; }
 
-        /* --- ARŞİV PANELİ GENEL --- */
         .archive-section { margin-top: 35px; border-top: 1px solid rgba(0, 255, 102, 0.2); padding-top: 25px; }
         .archive-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .archive-title { font-family: 'Orbitron', sans-serif; font
+        .archive-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: bold; color: var(--matrix-green); }
+        
+        .clear-btn {
+            background: transparent; border: 1px solid var(--danger-red); color: var(--danger-red);
+            padding: 6px 14px; font-size: 0.8rem; border-radius: 6px; cursor: pointer; font-weight: bold;
+        }
+        .clear-btn:hover { background: var(--danger-red); color: #fff; }
+        .search-input { width: 100%; background: #050508; border: 1px solid rgba(0, 255, 102, 0.2); padding: 12px 16px; border-radius: 8px; box-sizing: border-box; margin-bottom: 20px; color: #fff; }
+
+        .columns-container { display: flex; gap: 15px; }
+        .column-panel { flex: 1; background: rgba(5, 5, 8, 0.6); border: 1px solid rgba(0, 255, 102, 0.15); border-radius: 12px; padding: 12px; }
+
+        .column-title {
+            font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: bold; text-align: center;
+            padding: 8px 0; margin-bottom: 12px; border-radius: 6px; text-transform: uppercase;
+        }
+        .title-kaan { background: rgba(142, 68, 173, 0.2); color: #c39bd3; border: 1px solid var(--kaan-badge); }
+        .title-furkan { background: rgba(211, 84, 0, 0.2); color: #f5b041; border: 1px solid var(--furkan-badge); }
+
+        .archive-list { max-height: 320px; overflow-y: auto; padding-right: 2px; }
+        .archive-list::-webkit-scrollbar { width: 3px; }
+        .archive-list::-webkit-scrollbar-thumb { background: rgba(0, 255, 102, 0.3); }
+
+        .archive-item {
+            background: #050806; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px;
+            border: 1px solid rgba(0, 255, 102, 0.1); border-left: 3px solid var(--matrix-green);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        
+        .archive-name { font-weight: bold; font-size: 0.9rem; color: #fff; display: block; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .archive-meta { font-size: 0.7rem; color: var(--text-muted); display: block; margin-top: 2px; }
+        .archive-right { display: flex; align-items: center; gap: 8px; }
+        .archive-score { font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 1rem; }
+        
+        .delete-btn { background: transparent; border: none; color: rgba(255, 255, 255, 0.2); cursor: pointer; font-size: 0.95rem; }
+        .delete-btn:hover { color: var(--danger-red); }
+    </style>
+</head>
+<body>
+
+<canvas id="matrixCanvas"></canvas>
+
+<div class="container">
+    <div class="header">
+        <h1>⚡ K-F MATRIX NETWORK v8.8 ⚡</h1>
+        <div class="sub-header">Split-Screen Bulut İstihbarat Ağı</div>
+    </div>
+    
+    <div class="section-wrapper">
+        <div class="form-row">
+            <div class="form-group flex-1">
+                <label for="operator">Analist Girişi</label>
+                <select id="operator">
+                    <option value="👑 KAAN">KAAN</option>
+                    <option value="⚔️ FURKAN">FURKAN</option>
+                </select>
+            </div>
+            <div class="form-group flex-1">
+                <label for="isim">Hedef Kod Adı</label>
+                <input type="text" id="isim" placeholder="Örn: Merve">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="safPuan">1. Saf Görsel Puan <span>(Ağırlık: %50)</span></label>
+                <input type="number" id="safPuan" step="0.1" min="1" max="10" placeholder="1.0 - 10.0 arası veri girin">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group flex-1">
+                <label for="ozguven">2. Özgüven Seviyesi <span>(%30)</span></label>
+                <input type="number" id="ozguven" step="0.1" min="1" max="10" placeholder="0 - 10">
+            </div>
+            <div class="form-group flex-1">
+                <label for="lojistik">3. Lojistik Kolaylık <span>(%20)</span></label>
+                <input type="number" id="lojistik" step="0.1" min="1" max="10" placeholder="0 - 10">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="redflag">4. Uyumsuzluk / Red Flag Filtresi <span class="red-span">(Ceza Katsayısı)</span></label>
+                <input type="number" id="redflag" step="0.1" min="1" max="10" placeholder="Yaşam tarzı, toksiklik (1-10)">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="lig">5. Gerçekçilik Filtresi (Ulaşılabilirlik Ligi)</label>
+                <select id="lig">
+                    <option value="1.0">Reel Lig (Aynı Ortam) -> x1.0</option>
+                    <option value="0.7">Yarı-Reel Lig (Sosyal Medya) -> x0.7</option>
+                    <option value="0.15">Ulaşılmaz Lig (Elizabeth Olsen Modu) -> x0.15</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-submit" onclick="matrisiHesapla()">Matrisi Tetikle & Buluta Gönder</button>
+
+        <div class="result-panel" id="resultPanel">
+            <div class="result-title">📊 Bulut Çıktı Raporu</div>
+            <div class="result-item">Seçilen Hedef: <b id="resIsim">-</b></div>
+            <div class="result-item" id="resKriterler">-</div>
+            <div class="result-item">Aktif Filtre: <b id="resLig">-</b></div>
+            <div class="final-score" id="resFinal">-</div>
+            <div style="font-weight: bold; color: var(--matrix-green); font-size: 0.8rem; text-transform: uppercase; margin-top: 15px;">📍 Operasyonel Emir</div>
+            <div class="action-plan" id="resAksiyon"></div>
+        </div>
+
+        <div class="archive-section">
+            <div class="archive-header">
+                <div class="archive-title">🗄️ Canlı Ortak Veri Havuzu</div>
+                <button class="clear-btn" onclick="arsiviTemizle()">Bulutu Sıfırla</button>
+            </div>
+
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Ortak arşivlerde canlı arama..." onkeyup="arsiviFiltrele()">
+
+            <div class="columns-container">
+                <div class="column-panel">
+                    <div class="column-title title-kaan">👑 Kaan Operasyonları</div>
+                    <div class="archive-list" id="kaanList"></div>
+                </div>
+                
+                <div class="column-panel">
+                    <div class="column-title title-furkan">⚔️ Furkan Operasyonları</div>
+                    <div class="archive-list" id="furkanList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- MATRIX BG SAFE ANIMATION ---
+    try {
+        const canvas = document.getElementById('matrixCanvas'); const ctx = canvas.getContext('2d');
+        function resizeCanvas() { canvas.width = window.innerWidth || 800; canvas.height = window.innerHeight || 600; }
+        resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+        const alphabet = "010101ABCDEFGHIJKLMNOPQRSTUVWXYZ010101"; const fontSize = 14; const columns = Math.floor(canvas.width / fontSize) || 20;
+        const rainDrops = Array.from({ length: columns }).fill(1);
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(3, 3, 5, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff66'; ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                const x = i * fontSize; const y = rainDrops[i] * fontSize;
+                ctx.fillStyle = Math.random() > 0.98 ? '#fff' : '#00ff66'; ctx.fillText(text, x, y);
+                if (y > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
+                rainDrops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 30);
+    } catch(e) { console.log("Canvas animation bypassed for compatibility."); }
+
+    // --- SECURE FIREBASE CLOUD REALTIME DATABASE ---
+    const DB_URL = "https://kf-skoremetre-default-rtdb.europe-west1.firebasedatabase.app/arsiv.json";
+
+    window.onload = function() { arsiviListele(); setInterval(arsiviListele, 5000); };
+
+    function matrisiHesapla() {
+        let op = document.getElementById('operator').value;
+        let isim = document.getElementById('isim').value.trim();
+        let G = parseFloat(document.getElementById('safPuan').value);
+        let O = parseFloat(document.getElementById('ozguven').value);
+        let L = parseFloat(document.getElementById('lojistik').value);
+        let R = parseFloat(document.getElementById('redflag').value);
+        
+        let selectLig = document.getElementById('lig');
+        let carpan = parseFloat(selectLig.value);
+        let ligMetni = selectLig.options[selectLig.selectedIndex].text.split(" ->")[0];
+
+        if (!isim || isim.toLowerCase() === 'geç') isim = "Kayıtsız Hedef";
+
+        if (isNaN(G) || G < 1 || G > 10 || isNaN(O) || O < 1 || O > 10 || isNaN(L) || L < 1 || L > 10 || isNaN(R) || R < 1 || R > 10) {
+            alert("🚨 HATA: Tüm parametreler 1.0 ile 10.0 arasında girilmelidir.");
+            return;
+        }
+
+        let pozitifSkor = (G * 0.5) + (O * 0.3) + (L * 0.2);
+        let ceza = (R - 1) * 0.22; if (ceza < 0) ceza = 0;
+        let hamSkor = pozitifSkor - ceza;
+        if (hamSkor < 0) hamSkor = 0; if (hamSkor > 10) hamSkor = 10;
+        let finalPuan = Math.round((hamSkor * carpan) * 100) / 100;
+
+        let finalRenk = "var(--danger-red)";
+        if (finalPuan >= 6.5) finalRenk = "var(--matrix-green)";
+        else if (finalPuan >= 4.5) finalRenk = "var(--warning-yellow)";
+
+        let aksiyon = "";
+        if (R >= 7.5) {
+            aksiyon = `⚠️ SİSTEM ALARMI: ${op} tarafından saptanan uyumsuzluk/Red Flag derecesi kritik limittedir (${R}). Operasyon durdurulmuştur.`;
+        } else if (carpan === 1.0) {
+            if (finalPuan >= 7) aksiyon = `🔥 OPERASYON EMRETMESİ: ${op} için tüm parametreler uyumlu. Gidip tanışmak için tam zamanı!`;
+            else if (finalPuan >= 4.5) aksiyon = "👀 PASİF TAKİBİ: Potansiyel tespit edildi ancak şartları biraz daha güçlendirmeniz gerek.";
+            else aksiyon = "☕ RUTİN SEVİYE: Skor tabanı yetersiz.";
+        } else if (carpan === 0.7) {
+            aksiyon = G >= 8 ? "📱 SOSYAL MEDYA OPERASYONU: Stratejik bir story etkileşimi bekleyin." : "⏳ BEKLEMEDE KALIN: Ağda hafif etkileşimlerle kalın.";
+        } else {
+            aksiyon = "🎬 ELIZABETH OLSEN FILTRESI: Arkanıza yaslanıp film açın.";
+        }
+
+        document.getElementById('resIsim').innerText = isim.toUpperCase();
+        document.getElementById('resKriterler').innerHTML = `Görsel: <b>${G}</b> | Özgüven: <b>${O}</b> | Lojistik: <b>${L}</b> | <span style="color:var(--danger-red)">RF: <b>${R}</b></span>`;
+        document.getElementById('resLig').innerText = `${ligMetni} (Analist: ${op})`;
+        let resFinal = document.getElementById('resFinal'); resFinal.innerText = `🎯 K-F ENDEKSİ: ${finalPuan} / 10`; resFinal.style.color = finalRenk;
+        document.getElementById('resAksiyon').innerText = aksiyon; document.getElementById('resultPanel').style.display = "block";
+
+        bulutaKaydet(isim, finalPuan, finalRenk, op, R);
+
+        document.getElementById('isim').value = ""; document.getElementById('safPuan').value = "";
+        document.getElementById('ozguven').value = ""; document.getElementById('lojistik').value = ""; document.getElementById('redflag').value = "";
+    }
+
+    function bulutaKaydet(isim, puan, renk, op, rf) {
+        let simdi = new Date();
+        let tarihTxt = simdi.toLocaleDateString('tr-TR') + " " + simdi.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
+        let yeniKayit = { id: Date.now(), tarih: tarihTxt, ad: isim.toUpperCase(), skor: puan, renk: renk, operator: op, redflag: rf };
+
+        fetch(DB_URL, { method: 'POST', body: JSON.stringify(yeniKayit), headers: { 'Content-Type': 'application/json' } })
+        .then(() => arsiviListele());
+    }
+
+    function arsiviListele() {
+        fetch(DB_URL)
+        .then(res => res.json())
+        .then(data => {
+            let kaanDiv = document.getElementById("kaanList");
+            let furkanDiv = document.getElementById("furkanList");
+            if(!kaanDiv || !furkanDiv) return;
+            kaanDiv.innerHTML = ""; furkanDiv.innerHTML = "";
+
+            if (!data) {
+                kaanDiv.innerHTML = `<div style="color: var(--text-muted); font-size:0.75rem; text-align:center; padding:10px;">Temiz...</div>`;
+                furkanDiv.innerHTML = `<div style="color: var(--text-muted); font-size:0.75rem; text-align:center; padding:10px;">Temiz...</div>`;
+                return;
+            }
+
+            let kayitlar = Object.keys(data).map(key => ({firebaseKey: key, ...data[key]})).reverse();
+            let kaanSayac = 0; let furkanSayac = 0;
+
+            kayitlar.forEach(item => {
+                let htmlIcerik = `
+                    <div class="archive-item" style="border-left-color: ${item.renk}">
+                        <div class="archive-info">
+                            <span class="archive-name" title="${item.ad}">${item.ad}</span>
+                            <span class="archive-meta">📅 ${item.tarih.split(" ")[0]} | 🚩:${item.redflag}</span>
+                        </div>
+                        <div class="archive-right">
+                            <span class="archive-score" style="color: ${item.renk}">${item.skor}</span>
+                            <button class="delete-btn" onclick="buluttanSil('${item.firebaseKey}')">✕</button>
+                        </div>
+                    </div>
+                `;
+
+                if (item.operator && item.operator.includes("KAAN")) {
+                    kaanDiv.innerHTML += htmlIcerik; kaanSayac++;
+                } else {
+                    furkanDiv.innerHTML += htmlIcerik; furkanSayac++;
+                }
+            });
+
+            if(kaanSayac === 0) kaanDiv.innerHTML = `<div style="color: var(--text-muted); font-size:0.75rem; text-align:center; padding:10px;">Kayıt Yok</div>`;
+            if(furkanSayac === 0) furkanDiv.innerHTML = `<div style="color: var(--text-muted); font-size:0.75rem; text-align:center; padding:10px;">Kayıt Yok</div>`;
+        }).catch(err => console.log("Cloud read sync error. Re-trying..."));
+    }
+
+    function buluttanSil(key) {
+        if (confirm("Bu kaydı ortak buluttan kalıcı olarak silmek istiyor musunuz?")) {
+            fetch(`https://kf-skoremetre-default-rtdb.europe-west1.firebasedatabase.app/arsiv/${key}.json`, { method: 'DELETE' })
+            .then(() => arsiviListele());
+        }
+    }
+
+    function arsiviTemizle() {
+        if (confirm("KRİTİK UYARI: Tüm bulut veri havuzu kalıcı olarak imha edilecek! Emin misiniz?")) {
+            fetch(DB_URL, { method: 'DELETE' }).then(() => arsiviListele());
+        }
+    }
+
+    function arsiviFiltrele() {
+        let arananHarf = document.getElementById('searchInput').value.toUpperCase();
+        let items = document.getElementsByClassName('archive-item');
+        for (let i = 0; i < items.length; i++) {
+            let isimAlani = items[i].getElementsByClassName('archive-name')[0];
+            if (isimAlani) {
+                let metinDeğeri = isimAlani.textContent || isimAlani.innerText;
+                items[i].style.display = metinDeğeri.toUpperCase().indexOf(arananHarf) > -1 ? "" : "none";
+            }
+        }
+    }
+</script>
+</body>
+</html>
