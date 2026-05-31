@@ -68,7 +68,40 @@
         }
 
         .sub-header { color: var(--text-muted); font-size: 0.8rem; margin-top: 6px; font-weight: bold; letter-spacing: 2px; }
-        .section-wrapper { padding: 25px; }
+        
+        .tabs-nav {
+            display: flex;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid var(--panel-border);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        .tab-btn.active {
+            color: var(--matrix-green);
+            background: rgba(0, 255, 102, 0.05);
+            border-bottom: 2px solid var(--matrix-green);
+            text-shadow: 0 0 8px var(--matrix-green);
+        }
+        .tab-content {
+            display: none;
+            padding: 25px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
         .form-row { display: flex; gap: 15px; margin-bottom: 18px; }
         .form-group { display: flex; flex-direction: column; width: 100%; }
         .flex-1 { flex: 1; }
@@ -85,6 +118,7 @@
             background: #050508; border: 1px solid rgba(0, 255, 102, 0.3);
             color: #fff; padding: 14px 16px; border-radius: 10px; font-size: 0.95rem;
             font-family: 'Fira Code', monospace; outline: none; box-sizing: border-box;
+            width: 100%;
         }
 
         input:focus, select:focus { border-color: var(--matrix-green); box-shadow: 0 0 15px var(--matrix-glow); }
@@ -103,6 +137,26 @@
 
         .btn-submit:hover { background: var(--matrix-green); color: var(--bg-black); box-shadow: 0 0 25px var(--matrix-green); }
 
+        .avatar-preview-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #050508;
+            border: 1px dashed rgba(0, 255, 102, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 18px;
+        }
+
+        .avatar-svg {
+            width: 100px;
+            height: 100px;
+            background: #111;
+            border-radius: 50%;
+            border: 2px solid var(--matrix-green);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+        }
+
         .result-panel {
             background: #030504; border-radius: 14px; padding: 22px; border: 1px solid var(--matrix-green); margin-top: 25px; display: none;
         }
@@ -119,7 +173,7 @@
 
         .action-plan { margin-top: 10px; line-height: 1.6; font-size: 0.9rem; color: #ffaa40; background: rgba(255, 170, 64, 0.05); padding: 14px; border-radius: 8px; border-left: 3px solid #ffaa40; }
 
-        .archive-section { margin-top: 35px; border-top: 1px solid rgba(0, 255, 102, 0.2); padding-top: 25px; }
+        .archive-section { padding: 25px; border-top: 1px solid rgba(0, 255, 102, 0.2); }
         .archive-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .archive-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: bold; color: var(--matrix-green); }
         
@@ -140,22 +194,24 @@
         .title-kaan { background: rgba(142, 68, 173, 0.2); color: #c39bd3; border: 1px solid var(--kaan-badge); }
         .title-furkan { background: rgba(211, 84, 0, 0.2); color: #f5b041; border: 1px solid var(--furkan-badge); }
 
-        .archive-list { max-height: 320px; overflow-y: auto; padding-right: 2px; }
+        .archive-list { max-height: 420px; overflow-y: auto; padding-right: 2px; }
         .archive-list::-webkit-scrollbar { width: 3px; }
         .archive-list::-webkit-scrollbar-thumb { background: rgba(0, 255, 102, 0.3); }
 
         .archive-item {
-            background: #050806; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px;
+            background: #050806; padding: 10px; border-radius: 8px; margin-bottom: 8px;
             border: 1px solid rgba(0, 255, 102, 0.1); border-left: 3px solid var(--matrix-green);
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex; gap: 6px; align-items: center; justify-content: space-between;
         }
+        .item-left-block { display: flex; align-items: center; gap: 8px; }
+        .archive-avatar-mini { width: 44px; height: 44px; border-radius: 50%; background: #111; border: 1px solid rgba(0, 255, 102, 0.4); flex-shrink: 0; }
+        .archive-name { font-weight: bold; font-size: 0.85rem; color: #fff; display: block; max-width: 95px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .archive-meta { font-size: 0.65rem; color: var(--text-muted); display: block; margin-top: 1px; }
+        .archive-features { font-size: 0.58rem; color: #50e080; display: block; font-style: italic; margin-top: 2px; line-height: 1.2; max-width: 130px; }
+        .archive-right { display: flex; align-items: center; gap: 6px; }
+        .archive-score { font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 0.95rem; }
         
-        .archive-name { font-weight: bold; font-size: 0.9rem; color: #fff; display: block; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .archive-meta { font-size: 0.7rem; color: var(--text-muted); display: block; margin-top: 2px; }
-        .archive-right { display: flex; align-items: center; gap: 8px; }
-        .archive-score { font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 1rem; }
-        
-        .delete-btn { background: transparent; border: none; color: rgba(255, 255, 255, 0.2); cursor: pointer; font-size: 0.95rem; }
+        .delete-btn { background: transparent; border: none; color: rgba(255, 255, 255, 0.2); cursor: pointer; font-size: 0.9rem; }
         .delete-btn:hover { color: var(--danger-red); }
     </style>
 </head>
@@ -168,68 +224,204 @@
         <h1>⚡ FK GIRL NETWORK ⚡</h1>
         <div class="sub-header">Analiz Tabanlı Kız İstihbarat Ağı</div>
     </div>
+
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('standardTab', this)">Standart Giriş</button>
+        <button class="tab-btn" onclick="switchTab('premiumTab', this)">👑 Premium Profiler</button>
+    </div>
     
-    <div class="section-wrapper">
-        <div class="form-row">
-            <div class="form-group flex-1">
-                <label for="operator">Analist Girişi</label>
-                <select id="operator">
-                    <option value="👑 KAAN">KAAN</option>
-                    <option value="⚔️ FURKAN">FURKAN</option>
-                </select>
+    <div class="section-wrapper" style="padding: 0;">
+        
+        <!-- SEKME 1: STANDART GİRİŞ PANELİ -->
+        <div id="standardTab" class="tab-content active">
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="operator">Analist Girişi</label>
+                    <select id="operator">
+                        <option value="👑 KAAN">KAAN</option>
+                        <option value="⚔️ FURKAN">FURKAN</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label for="isim">Hedef Kod Adı</label>
+                    <input type="text" id="isim" placeholder="Örn: Merve">
+                </div>
             </div>
-            <div class="form-group flex-1">
-                <label for="isim">Hedef Kod Adı</label>
-                <input type="text" id="isim" placeholder="Örn: Merve">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="safPuan">1. Saf Görsel Puan <span>(Ağırlık: %50)</span></label>
+                    <input type="number" id="safPuan" step="0.1" min="1" max="10" placeholder="1.0 - 10.0 arası veri girin">
+                </div>
             </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="ozguven">2. Özgüven Seviyesi <span>(%30)</span></label>
+                    <input type="number" id="ozguven" step="0.1" min="1" max="10" placeholder="0 - 10">
+                </div>
+                <div class="form-group flex-1">
+                    <label for="lojistik">3. Lojistik Kolaylık <span>(%20)</span></label>
+                    <input type="number" id="lojistik" step="0.1" min="1" max="10" placeholder="0 - 10">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="redflag">4. Uyumsuzluk / Red Flag Filtresi <span class="red-span">(Ceza Katsayısı)</span></label>
+                    <input type="number" id="redflag" step="0.1" min="1" max="10" placeholder="Yaşam tarzı, toksiklik (1-10)">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="lig">5. Gerçekçilik Filtresi (Ulaşılabilirlik Ligi)</label>
+                    <select id="lig">
+                        <option value="1.0">Reel Lig (Aynı Ortam) -> x1.0</option>
+                        <option value="0.7">Yarı-Reel Lig (Sosyal Medya) -> x0.7</option>
+                        <option value="0.15">Ulaşılmaz Lig (Elizabeth Olsen Modu) -> x0.15</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-submit" onclick="matrisiHesapla(false)">Matrisi Tetikle & Buluta Gönder</button>
         </div>
 
-        <div class="form-row">
-            <div class="form-group">
-                <label for="safPuan">1. Saf Görsel Puan <span>(Ağırlık: %50)</span></label>
-                <input type="number" id="safPuan" step="0.1" min="1" max="10" placeholder="1.0 - 10.0 arası veri girin">
+        <!-- SEKME 2: PREMIUM PROFILER PANELİ (YENİ ÖZELLİKLER DAHİL) -->
+        <div id="premiumTab" class="tab-content">
+            <div class="avatar-preview-box">
+                <div id="avatarContainer"></div>
             </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_operator">Analist Girişi</label>
+                    <select id="p_operator">
+                        <option value="👑 KAAN">KAAN</option>
+                        <option value="⚔️ FURKAN">FURKAN</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_isim">Hedef Kod Adı</label>
+                    <input type="text" id="p_isim" placeholder="Örn: Selin">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_boy">Boy Filtresi</label>
+                    <select id="p_boy">
+                        <option value="Minyon">Minyon (1.50 - 1.60)</option>
+                        <option value="Orta">Orta (1.61 - 1.70)</option>
+                        <option value="Uzun">Uzun (1.71+)</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_gozluk">Gözlük Durumu</label>
+                    <select id="p_gozluk" onchange="renderLiveAvatar()">
+                        <option value="Yok">Gözlük Yok</option>
+                        <option value="Var">Gözlük Var</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- GİYİM TARZI VE YÜZ HATALARI SEÇENEKLERİ -->
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_giyim">Giyim Tarzi / Stil</label>
+                    <select id="p_giyim" onchange="renderLiveAvatar()">
+                        <option value="Casual">Casual / Spor</option>
+                        <option value="Streetwear">Streetwear (Kapüşonlu)</option>
+                        <option value="Classic">Classic / Elegant</option>
+                        <option value="Goth">Goth / Alternative</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_yuzHat">Yüz Hatlari & Detay</label>
+                    <select id="p_yuzHat" onchange="renderLiveAvatar()">
+                        <option value="Standart">Standart</option>
+                        <option value="Keskin">Keskin / Model</option>
+                        <option value="Soft">Soft / Allikli</option>
+                        <option value="Eyeliner">Yogun Eyeliner</option>
+                        <option value="Piercing">Sol Dudak Piercing</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_saçRenk">Saç Rengi</label>
+                    <select id="p_saçRenk" onchange="renderLiveAvatar()">
+                        <option value="Siyah">Siyah</option>
+                        <option value="Kahve">Kahverengi</option>
+                        <option value="Sarı">Sarı / Sarışın</option>
+                        <option value="Kızıl">Kızıl</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_saçUzunluk">Saç Uzunluğu</label>
+                    <select id="p_saçUzunluk" onchange="renderLiveAvatar()">
+                        <option value="Kısa">Kısa Saç</option>
+                        <option value="Omuz">Omuz Hizasında</option>
+                        <option value="Uzun">Uzun Saç</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="p_saçŞekil">Saç Tipi / Şekli</label>
+                    <select id="p_saçŞekil" onchange="renderLiveAvatar()">
+                        <option value="Düz">Düz</option>
+                        <option value="Dalgalı">Dalgalı</option>
+                        <option value="Kıvırcık">Kıvırcık</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_safPuan">Görsel Puan</label>
+                    <input type="number" id="p_safPuan" step="0.1" min="1" max="10" placeholder="1-10">
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_ozguven">Özgüven</label>
+                    <input type="number" id="p_ozguven" step="0.1" min="1" max="10" placeholder="1-10">
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_lojistik">Lojistik</label>
+                    <input type="number" id="p_lojistik" step="0.1" min="1" max="10" placeholder="1-10">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_redflag">Uyumsuzluk / Red Flag</label>
+                    <input type="number" id="p_redflag" step="0.1" min="1" max="10" placeholder="1-10">
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_lig">Lig Seçimi</label>
+                    <select id="p_lig">
+                        <option value="1.0">Reel Lig (x1.0)</option>
+                        <option value="0.7">Yarı-Reel (x0.7)</option>
+                        <option value="0.15">Ulaşılmaz (x0.15)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-submit" style="border-color: #ffaa40; color: #ffaa40;" onclick="matrisiHesapla(true)">👑 Premium Analizi Tetikle</button>
         </div>
 
-        <div class="form-row">
-            <div class="form-group flex-1">
-                <label for="ozguven">2. Özgüven Seviyesi <span>(%30)</span></label>
-                <input type="number" id="ozguven" step="0.1" min="1" max="10" placeholder="0 - 10">
+        <div style="padding: 0 25px 25px 25px;">
+            <div class="result-panel" id="resultPanel">
+                <div class="result-title">📊 Bulut Çıktı Raporu</div>
+                <div class="result-item">Seçilen Hedef: <b id="resIsim">-</b></div>
+                <div class="result-item" id="resKriterler">-</div>
+                <div class="result-item">Aktif Filtre: <b id="resLig">-</b></div>
+                <div class="final-score" id="resFinal">-</div>
+                <div style="font-weight: bold; color: var(--matrix-green); font-size: 0.8rem; text-transform: uppercase; margin-top: 15px;">📍 Operasyonel Emir</div>
+                <div class="action-plan" id="resAksiyon"></div>
             </div>
-            <div class="form-group flex-1">
-                <label for="lojistik">3. Lojistik Kolaylık <span>(%20)</span></label>
-                <input type="number" id="lojistik" step="0.1" min="1" max="10" placeholder="0 - 10">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="redflag">4. Uyumsuzluk / Red Flag Filtresi <span class="red-span">(Ceza Katsayısı)</span></label>
-                <input type="number" id="redflag" step="0.1" min="1" max="10" placeholder="Yaşam tarzı, toksiklik (1-10)">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="lig">5. Gerçekçilik Filtresi (Ulaşılabilirlik Ligi)</label>
-                <select id="lig">
-                    <option value="1.0">Reel Lig (Aynı Ortam) -> x1.0</option>
-                    <option value="0.7">Yarı-Reel Lig (Sosyal Medya) -> x0.7</option>
-                    <option value="0.15">Ulaşılmaz Lig (Elizabeth Olsen Modu) -> x0.15</option>
-                </select>
-            </div>
-        </div>
-
-        <button class="btn-submit" onclick="matrisiHesapla()">Matrisi Tetikle & Buluta Gönder</button>
-
-        <div class="result-panel" id="resultPanel">
-            <div class="result-title">📊 Bulut Çıktı Raporu</div>
-            <div class="result-item">Seçilen Hedef: <b id="resIsim">-</b></div>
-            <div class="result-item" id="resKriterler">-</div>
-            <div class="result-item">Aktif Filtre: <b id="resLig">-</b></div>
-            <div class="final-score" id="resFinal">-</div>
-            <div style="font-weight: bold; color: var(--matrix-green); font-size: 0.8rem; text-transform: uppercase; margin-top: 15px;">📍 Operasyonel Emir</div>
-            <div class="action-plan" id="resAksiyon"></div>
         </div>
 
         <div class="archive-section">
@@ -275,24 +467,137 @@
             }
         }
         setInterval(drawMatrix, 30);
-    } catch(e) { console.log("Canvas animation bypassed for compatibility."); }
+    } catch(e) { console.log("Canvas animation bypassed."); }
 
     // --- KENDİ ÜCRETSİZ FIREBASE URL BAĞLANTIN ---
-    // Örn: "https://fk-network-default-rtdb.firebaseio.com/arsiv.json" şeklinde olmalı
-    const DB_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com//arsiv.json";
-    const BASE_DELETE_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com//arsiv/";
+    const DB_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com/arsiv.json";
+    const BASE_DELETE_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com/arsiv/";
 
-    window.onload = function() { arsiviListele(); setInterval(arsiviListele, 5000); };
+    window.onload = function() { renderLiveAvatar(); arsiviListele(); setInterval(arsiviListele, 5000); };
 
-    function matrisiHesapla() {
-        let op = document.getElementById('operator').value;
-        let isim = document.getElementById('isim').value.trim();
-        let G = parseFloat(document.getElementById('safPuan').value);
-        let O = parseFloat(document.getElementById('ozguven').value);
-        let L = parseFloat(document.getElementById('lojistik').value);
-        let R = parseFloat(document.getElementById('redflag').value);
+    function switchTab(tabId, btn) {
+        let contents = document.getElementsByClassName('tab-content');
+        for (let i = 0; i < contents.length; i++) contents[i].classList.remove('active');
+        let buttons = document.getElementsByClassName('tab-btn');
+        for (let i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // YENİ VEKTÖREL SİBER ÇİZİM MOTORU (GİYİM VE YÜZ HATTLARI ENTEGRELİ)
+    function generateAvatarSVG(saçRenk, saçUzunluk, saçŞekil, gozluk, giyim, yuzHat) {
+        let hairColorHex = "#222222";
+        if(saçRenk === "Kahve") hairColorHex = "#6e473b";
+        if(saçRenk === "Sarı") hairColorHex = "#f1c40f";
+        if(saçRenk === "Kızıl") hairColorHex = "#e74c3c";
+
+        let gozlukHtml = "";
+        if(gozluk === "Var") {
+            gozlukHtml = `<rect x='28' y='42' width='14' height='8' rx='2' fill='none' stroke='#00ff66' stroke-width='1.5'/>
+                          <rect x='48' y='42' width='14' height='8' rx='2' fill='none' stroke='#00ff66' stroke-width='1.5'/>
+                          <line x1='42' y1='45' x2='48' y2='45' stroke='#00ff66' stroke-width='1.5'/>`;
+        }
+
+        // Giyim Tarzı Vektör Atamaları
+        let clothingHtml = `<path d='M20 76 Q 45 68 70 76 L 75 90 L 15 90 Z' fill='#151b18' stroke='#00ff66' stroke-width='1'/>`; // Standart Casual
+        if(giyim === "Streetwear") {
+            clothingHtml = `
+                <path d='M20 76 Q 45 66 70 76 L 75 90 L 15 90 Z' fill='#0e3a1e' stroke='#00ff66' stroke-width='1.5'/>
+                <path d='M30 72 Q 45 56 60 72' fill='none' stroke='#00ff66' stroke-width='2'/>
+                <circle cx='32' cy='78' r='2' fill='#fff'/><circle cx='58' cy='78' r='2' fill='#fff'/>
+            `;
+        } else if(giyim === "Classic") {
+            clothingHtml = `
+                <path d='M20 76 Q 45 68 70 76 L 75 90 L 15 90 Z' fill='#111' stroke='#70a080' stroke-width='1'/>
+                <path d='M38 66 L 45 78 L 52 66 Z' fill='#fff'/>
+                <path d='M43 74 L 47 74 L 49 90 L 41 90 Z' fill='#ff3333'/>
+            `;
+        } else if(giyim === "Goth") {
+            clothingHtml = `
+                <path d='M20 76 Q 45 68 70 76 L 75 90 L 15 90 Z' fill='#050505' stroke='#ff3333' stroke-width='1'/>
+                <rect x='38' y='61' width='14' height='4' fill='#222' stroke='#aaa' stroke-width='1'/>
+                <circle cx='45' cy='63' r='1.5' fill='#fff'/>
+            `;
+        }
+
+        // Yüz Hatları ve Makyaj Modifikasyonları
+        let yuzEkstraHtml = "";
+        let yuzRengi = "#f3d2c1";
+        let ceneTipi = `<circle cx='45' cy='44' r='22' fill='${yuzRengi}'/>`; // Standart dairesel yüz
+
+        if(yuzHat === "Keskin") {
+            ceneTipi = `<path d='M23 44 C23 25, 67 25, 67 44 C67 58, 45 68, 45 68 C45 68, 23 58, 23 44 Z' fill='${yuzRengi}'/>`;
+            yuzEkstraHtml += `<path d='M26 48 Q 32 52 35 49' fill='none' stroke='#d2b4a1' stroke-width='1.5'/>
+                             <path d='M64 48 Q 58 52 55 49' fill='none' stroke='#d2b4a1' stroke-width='1.5'/>`;
+        } else if(yuzHat === "Soft") {
+            yuzEkstraHtml += `<circle cx='29' cy='49' r='4' fill='rgba(255, 51, 51, 0.25)'/>
+                             <circle cx='61' cy='49' r='4' fill='rgba(255, 51, 51, 0.25)'/>`;
+        } else if(yuzHat === "Eyeliner") {
+            yuzEkstraHtml += `<path d='M30 44 L 25 41' stroke='#000' stroke-width='2' stroke-linecap='round'/>
+                             <path d='M60 44 L 65 41' stroke='#000' stroke-width='2' stroke-linecap='round'/>`;
+        } else if(yuzHat === "Piercing") {
+            yuzEkstraHtml += `<circle cx='39' cy='55' r='1.8' fill='none' stroke='#aaa' stroke-width='1.5'/>`;
+        }
+
+        let hairBackHtml = "";
+        let hairFrontHtml = "";
+
+        if(saçUzunluk === "Uzun") {
+            hairBackHtml = `<rect x='22' y='25' width='46' height='45' rx='10' fill='${hairColorHex}'/>`;
+        } else if(saçUzunluk === "Omuz") {
+            hairBackHtml = `<rect x='24' y='25' width='42' height='30' rx='8' fill='${hairColorHex}'/>`;
+        }
+
+        if(saçŞekil === "Kıvırcık") {
+            hairFrontHtml = `<circle cx='30' cy='24' r='7' fill='${hairColorHex}'/>
+                             <circle cx='45' cy='22' r='8' fill='${hairColorHex}'/>
+                             <circle cx='60' cy='24' r='7' fill='${hairColorHex}'/>
+                             <circle cx='24' cy='32' r='6' fill='${hairColorHex}'/>
+                             <circle cx='66' cy='32' r='6' fill='${hairColorHex}'/>`;
+        } else if(saçŞekil === "Dalgalı") {
+            hairFrontHtml = `<path d='M22 26 Q 45 14 68 26 Q 55 32 45 28 Q 35 32 22 26 Z' fill='${hairColorHex}'/>
+                             <path d='M22 26 Q 16 38 25 44' fill='none' stroke='${hairColorHex}' stroke-width='5' stroke-linecap='round'/>
+                             <path d='M68 26 Q 74 38 65 44' fill='none' stroke='${hairColorHex}' stroke-width='5' stroke-linecap='round'/>`;
+        } else {
+            hairFrontHtml = `<path d='M22 28 Q 45 16 68 28 Q 66 38 64 42 Q 45 26 26 42 Z' fill='${hairColorHex}'/>`;
+        }
+
+        return `<svg class='avatar-svg' viewBox='0 0 90 90' xmlns='http://www.w3.org/2000/svg'>
+            ${hairBackHtml}
+            <rect x='40' y='58' width='10' height='12' rx='2' fill='#e0ae98'/>
+            ${ceneTipi}
+            <circle cx='35' cy='44' r='2' fill='#333'/>
+            <circle cx='55' cy='44' r='2' fill='#333'/>
+            <path d='M41 53 Q 45 56 49 53' fill='none' stroke='#e74c3c' stroke-width='1.5' stroke-linecap='round'/>
+            ${yuzEkstraHtml}
+            ${hairFrontHtml}
+            ${gozlukHtml}
+            ${clothingHtml}
+        </svg>`;
+    }
+
+    function renderLiveAvatar() {
+        let sRenk = document.getElementById('p_saçRenk').value;
+        let sUzunluk = document.getElementById('p_saçUzunluk').value;
+        let sSekil = document.getElementById('p_saçŞekil').value;
+        let gozluk = document.getElementById('p_gozluk').value;
+        let giyim = document.getElementById('p_giyim').value;
+        let yuzHat = document.getElementById('p_yuzHat').value;
         
-        let selectLig = document.getElementById('lig');
+        document.getElementById('avatarContainer').innerHTML = generateAvatarSVG(sRenk, sUzunluk, sSekil, gozluk, giyim, yuzHat);
+    }
+
+    function matrisiHesapla(isPremium) {
+        let prefix = isPremium ? "p_" : "";
+        
+        let op = document.getElementById(prefix + 'operator').value;
+        let isim = document.getElementById(prefix + 'isim').value.trim();
+        let G = parseFloat(document.getElementById(prefix + 'safPuan').value);
+        let O = parseFloat(document.getElementById(prefix + 'ozguven').value);
+        let L = parseFloat(document.getElementById(prefix + 'lojistik').value);
+        let R = parseFloat(document.getElementById(prefix + 'redflag').value);
+        
+        let selectLig = document.getElementById(prefix + 'lig');
         let carpan = parseFloat(selectLig.value);
         let ligMetni = selectLig.options[selectLig.selectedIndex].text.split(" ->")[0];
 
@@ -332,16 +637,29 @@
         let resFinal = document.getElementById('resFinal'); resFinal.innerText = `🎯 K-F ENDEKSİ: ${finalPuan} / 10`; resFinal.style.color = finalRenk;
         document.getElementById('resAksiyon').innerText = aksiyon; document.getElementById('resultPanel').style.display = "block";
 
-        bulutaKaydet(isim, finalPuan, finalRenk, op, R);
+        let featString = "";
+        if(isPremium) {
+            let boy = document.getElementById('p_boy').value;
+            let sRenk = document.getElementById('p_saçRenk').value;
+            let sUzunluk = document.getElementById('p_saçUzunluk').value;
+            let sSekil = document.getElementById('p_saçŞekil').value;
+            let gozluk = document.getElementById('p_gozluk').value;
+            let giyim = document.getElementById('p_giyim').value;
+            let yuzHat = document.getElementById('p_yuzHat').value;
+            // Tüm yeni parametrelerin bulut için paketlenmesi
+            featString = `${boy}/${sUzunluk}-${sSekil}-${sRenk}/Gözlük:${gozluk}/${giyim}/${yuzHat}`;
+        }
 
-        document.getElementById('isim').value = ""; document.getElementById('safPuan').value = "";
-        document.getElementById('ozguven').value = ""; document.getElementById('lojistik').value = ""; document.getElementById('redflag').value = "";
+        bulutaKaydet(isim, finalPuan, finalRenk, op, R, featString);
+
+        document.getElementById(prefix + 'isim').value = ""; document.getElementById(prefix + 'safPuan').value = "";
+        document.getElementById(prefix + 'ozguven').value = ""; document.getElementById(prefix + 'lojistik').value = ""; document.getElementById(prefix + 'redflag').value = "";
     }
 
-    function bulutaKaydet(isim, puan, renk, op, rf) {
+    function bulutaKaydet(isim, puan, renk, op, rf, features) {
         let simdi = new Date();
         let tarihTxt = simdi.toLocaleDateString('tr-TR') + " " + simdi.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
-        let yeniKayit = { id: Date.now(), tarih: tarihTxt, ad: isim.toUpperCase(), skor: puan, renk: renk, operator: op, redflag: rf };
+        let yeniKayit = { id: Date.now(), tarih: tarihTxt, ad: isim.toUpperCase(), skor: puan, renk: renk, operator: op, redflag: rf, features: features };
 
         fetch(DB_URL, { method: 'POST', body: JSON.stringify(yeniKayit), headers: { 'Content-Type': 'application/json' } })
         .then(() => arsiviListele());
@@ -366,11 +684,32 @@
             let kaanSayac = 0; let furkanSayac = 0;
 
             kayitlar.forEach(item => {
+                let avatarHtml = "";
+                let featureLine = "";
+                
+                if(item.features) {
+                    let parts = item.features.split("/");
+                    let saçPartları = parts[1].split("-");
+                    let gozlukDurumu = parts[2].split(":")[1];
+                    let giyimModu = parts[3] || "Casual";
+                    let yuzModu = parts[4] || "Standart";
+                    
+                    // Şifreli veri çözülerek minyatür avatar yeniden üretilir
+                    avatarHtml = generateAvatarSVG(saçPartları[2], saçPartları[0], saçPartları[1], gozlukDurumu, giyimModu, yuzModu);
+                    featureLine = `<span class="archive-features">✨ ${parts[0]} | ${giyimModu} | ${yuzModu}</span>`;
+                } else {
+                    avatarHtml = generateAvatarSVG("Siyah", "Kısa", "Düz", "Yok", "Casual", "Standart");
+                }
+
                 let htmlIcerik = `
                     <div class="archive-item" style="border-left-color: ${item.renk}">
-                        <div class="archive-info">
-                            <span class="archive-name" title="${item.ad}">${item.ad}</span>
-                            <span class="archive-meta">📅 ${item.tarih.split(" ")[0]} | 🚩:${item.redflag}</span>
+                        <div class="item-left-block">
+                            <div class="archive-avatar-mini">${avatarHtml}</div>
+                            <div>
+                                <span class="archive-name" title="${item.ad}">${item.ad}</span>
+                                <span class="archive-meta">📅 ${item.tarih.split(" ")[0]} | 🚩:${item.redflag}</span>
+                                ${featureLine}
+                            </div>
                         </div>
                         <div class="archive-right">
                             <span class="archive-score" style="color: ${item.renk}">${item.skor}</span>
