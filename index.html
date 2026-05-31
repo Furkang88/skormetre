@@ -140,7 +140,7 @@
         .title-kaan { background: rgba(142, 68, 173, 0.2); color: #c39bd3; border: 1px solid var(--kaan-badge); }
         .title-furkan { background: rgba(211, 84, 0, 0.2); color: #f5b041; border: 1px solid var(--furkan-badge); }
 
-        .archive-list { max-height: 450px; overflow-y: auto; padding-right: 2px; }
+        .archive-list { max-height: 320px; overflow-y: auto; padding-right: 2px; }
         .archive-list::-webkit-scrollbar { width: 3px; }
         .archive-list::-webkit-scrollbar-thumb { background: rgba(0, 255, 102, 0.3); }
 
@@ -150,26 +150,13 @@
             display: flex; justify-content: space-between; align-items: center;
         }
         
-        .archive-left { display: flex; align-items: center; gap: 10px; }
-        .archive-avatar { width: 42px; height: 42px; border-radius: 50%; background: #0a0f0c; border: 1px solid rgba(0, 255, 102, 0.2); object-fit: contain; }
-        .archive-name { font-weight: bold; font-size: 0.9rem; color: #fff; display: block; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .archive-name { font-weight: bold; font-size: 0.9rem; color: #fff; display: block; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .archive-meta { font-size: 0.7rem; color: var(--text-muted); display: block; margin-top: 2px; }
         .archive-right { display: flex; align-items: center; gap: 8px; }
         .archive-score { font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 1rem; }
         
         .delete-btn { background: transparent; border: none; color: rgba(255, 255, 255, 0.2); cursor: pointer; font-size: 0.95rem; }
         .delete-btn:hover { color: var(--danger-red); }
-
-        /* SİBER AVATAR İÇİN KATMANLI ÇİZİM ALANI */
-        .cyber-avatar-canvas {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            background: #050806;
-            border: 2px solid var(--matrix-green);
-            display: inline-block;
-            overflow: hidden;
-        }
     </style>
 </head>
 <body>
@@ -183,7 +170,6 @@
     </div>
     
     <div class="section-wrapper">
-        <!-- Analist ve Hedef Girişi -->
         <div class="form-row">
             <div class="form-group flex-1">
                 <label for="operator">Analist Girişi</label>
@@ -198,58 +184,6 @@
             </div>
         </div>
 
-        <!-- YENİ FİZİKSEL ÖZELLİKLER SEÇENEKLERİ -->
-        <div class="form-row">
-            <div class="form-group flex-1">
-                <label for="sacUzunluk">Saç Uzunluğu</label>
-                <select id="sacUzunluk">
-                    <option value="short">Kısa Saç</option>
-                    <option value="medium">Omuz Hizası Saç</option>
-                    <option value="long">Uzun Saç</option>
-                </select>
-            </div>
-            <div class="form-group flex-1">
-                <label for="sacSekil">Saç Şekli</label>
-                <select id="sacSekil">
-                    <option value="straight">Düz</option>
-                    <option value="wavy">Dalgalı</option>
-                    <option value="curly">Kıvırcık</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group flex-1">
-                <label for="giyimTarzi">Giyim Tarzı</label>
-                <select id="giyimTarzi">
-                    <option value="resmi">Resmi (Blazer Ceket)</option>
-                    <option value="casual">Casual (Tişört)</option>
-                    <option value="gothic">Gothic (Siyah Kapüşonlu)</option>
-                    <option value="renkli">Renkli (Canlı Neon)</option>
-                </select>
-            </div>
-            <div class="form-group flex-1">
-                <label for="gozluk">Gözlük Filtresi</label>
-                <select id="gozluk">
-                    <option value="false">Yok</option>
-                    <option value="true">Var</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="boyEtkisi">Boy Skalası</label>
-                <select id="boyEtkisi">
-                    <option value="00ff66">1.50m - 1.60m (Yeşil Aura)</option>
-                    <option value="ffcc00">1.60m - 1.70m (Sarı Aura)</option>
-                    <option value="ffaa40">1.70m - 1.80m (Turuncu Aura)</option>
-                    <option value="ff3333">1.80m ve Üzeri (Kırmızı Aura)</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Matris Puanlama Parametreleri -->
         <div class="form-row">
             <div class="form-group">
                 <label for="safPuan">1. Saf Görsel Puan <span>(Ağırlık: %50)</span></label>
@@ -288,17 +222,8 @@
 
         <button class="btn-submit" onclick="matrisiHesapla()">Matrisi Tetikle & Buluta Gönder</button>
 
-        <!-- ÇIKTI PANELİ -->
         <div class="result-panel" id="resultPanel">
             <div class="result-title">📊 Bulut Çıktı Raporu</div>
-            
-            <!-- Katmansal Canlı Profil Çizim Alanı -->
-            <div style="text-align: center; margin-bottom: 20px;">
-                <div id="avatarBg" style="display: inline-block; width: 120px; height: 120px; border-radius: 50%; padding: 5px; background: transparent; transition: all 0.3s;">
-                    <div class="cyber-avatar-canvas" id="avatarTarget"></div>
-                </div>
-            </div>
-
             <div class="result-item">Seçilen Hedef: <b id="resIsim">-</b></div>
             <div class="result-item" id="resKriterler">-</div>
             <div class="result-item">Aktif Filtre: <b id="resLig">-</b></div>
@@ -307,7 +232,6 @@
             <div class="action-plan" id="resAksiyon"></div>
         </div>
 
-        <!-- ORTAK VERİ HAVUZU -->
         <div class="archive-section">
             <div class="archive-header">
                 <div class="archive-title">🗄️ Canlı Ortak Veri Havuzu</div>
@@ -332,7 +256,7 @@
 </div>
 
 <script>
-    // --- MATRIX BG ANIMATION ---
+    // --- MATRIX BG SAFE ANIMATION ---
     try {
         const canvas = document.getElementById('matrixCanvas'); const ctx = canvas.getContext('2d');
         function resizeCanvas() { canvas.width = window.innerWidth || 800; canvas.height = window.innerHeight || 600; }
@@ -351,79 +275,14 @@
             }
         }
         setInterval(drawMatrix, 30);
-    } catch(e) { console.log("Canvas animation bypassed."); }
+    } catch(e) { console.log("Canvas animation bypassed for compatibility."); }
 
-    // --- FIREBASE AYARLARI ---
-    const DB_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com/arsiv.json";
-    const BASE_DELETE_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com/arsiv/";
+    // --- KENDİ ÜCRETSİZ FIREBASE URL BAĞLANTIN ---
+    // Örn: "https://fk-network-default-rtdb.firebaseio.com/arsiv.json" şeklinde olmalı
+    const DB_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com//arsiv.json";
+    const BASE_DELETE_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com//arsiv/";
 
     window.onload = function() { arsiviListele(); setInterval(arsiviListele, 5000); };
-
-    // --- %100 BAĞIMSIZ DOĞAL SİBER VEKTÖR MOTORU ---
-    // Bu fonksiyon dışarıdan resim çekmez, özellikleri saf kodla SVG olarak anında üretir.
-    function cizCyberAvatar(uzunluk, sekil, giyim, gozluk) {
-        let sacPath = "";
-        let giyimColor = "#1a5276";
-        let giyimPath = `<path d="M20 110 L50 75 L80 110 Z" fill="${giyimColor}"/>`; // Standart T-shirt
-        let gozlukHtml = "";
-
-        // Saç Şekli ve Uzunluğuna Göre Vektör İnşası
-        if (uzunluk === "short") {
-            sacPath = (sekil === "straight") ? "M35 25 Q50 10 65 25 Q70 45 65 50 Q50 45 35 50 Z" : "M35 25 Q50 5 65 25 Q75 35 65 48 Q50 35 35 48 Z";
-        } else if (uzunluk === "medium") {
-            sacPath = (sekil === "curly") ? "M30 25 Q50 5 70 25 Q80 65 65 65 Q50 45 35 65 Q20 65 30 25" : "M32 23 Q50 8 68 23 Q75 60 65 60 Q50 45 35 60 Q25 60 32 23";
-        } else { // long
-            sacPath = (sekil === "curly") ? "M30 25 Q50 0 70 25 Q85 85 65 85 Q50 55 35 85 Q15 85 30 25" : "M30 25 Q50 5 70 25 Q80 85 65 85 Q50 50 35 85 Q20 85 30 25";
-        }
-
-        // Giyim Tarzı Eşleşmesi
-        if (giyim === "resmi") {
-            giyimColor = "#2c3e50";
-            giyimPath = `<path d="M20 110 L50 72 L80 110 Z" fill="${giyimColor}"/><path d="M42 72 L50 88 L58 72 Z" fill="#fff"/><path d="M48 88 L50 110 L52 88 Z" fill="#ff3333"/>`;
-        } else if (giyim === "gothic") {
-            giyimColor = "#111116";
-            giyimPath = `<path d="M15 110 Q50 65 85 110 Z" fill="${giyimColor}"/><circle cx="50" cy="50" r="24" fill="none" stroke="${giyimColor}" stroke-width="6"/>`;
-        } else if (giyim === "renkli") {
-            giyimColor = "#00ff66";
-            giyimPath = `<path d="M20 110 L50 75 L80 110 Z" fill="${giyimColor}"/><circle cx="50" cy="92" r="5" fill="#ff00ff"/>`;
-        }
-
-        // Gözlük Varlığı
-        if (gozluk === "true") {
-            gozlukHtml = `<circle cx="42" cy="45" r="7" fill="none" stroke="#00ff66" stroke-width="2"/><circle cx="58" cy="45" r="7" fill="none" stroke="#00ff66" stroke-width="2"/><line x1="49" y1="45" x2="51" y2="45" stroke="#00ff66" stroke-width="2"/>`;
-        }
-
-        // Birleşik SVG Çıktısı
-        let svgString = `
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
-                <!-- Arka Plan Siber Grid -->
-                <circle cx="50" cy="50" r="48" fill="#060907"/>
-                <line x1="50" y1="0" x2="50" y2="100" stroke="rgba(0,255,102,0.1)" stroke-width="0.5"/>
-                <line x1="0" y1="50" x2="100" y2="50" stroke="rgba(0,255,102,0.1)" stroke-width="0.5"/>
-                
-                <!-- Gövde ve Kıyafet -->
-                <path d="M40 70 L40 85 L60 85 L60 70 Z" fill="#e0a98c"/>
-                ${giyimPath}
-                
-                <!-- Kafa Yapısı -->
-                <circle cx="50" cy="46" r="16" fill="#f5cba7"/>
-                
-                <!-- Gözler -->
-                <circle cx="43" cy="44" r="2" fill="#111"/>
-                <circle cx="57" cy="44" r="2" fill="#111"/>
-                <path d="M46 54 Q50 58 54 54" fill="none" stroke="#e74c3c" stroke-width="1.5"/>
-                
-                <!-- Saç Katmanı -->
-                <path d="${sacPath}" fill="#2e1a0c" opacity="0.95" stroke="#1a0f07" stroke-width="0.5"/>
-                
-                <!-- Gözlük Aksesuarı -->
-                ${gozlukHtml}
-            </svg>
-        `;
-        
-        // Base64 formatına çevirip img src olarak veya doğrudan div içine basılabilir kılmak
-        return "data:image/svg+xml;utf8," + encodeURIComponent(svgString);
-    }
 
     function matrisiHesapla() {
         let op = document.getElementById('operator').value;
@@ -433,12 +292,6 @@
         let L = parseFloat(document.getElementById('lojistik').value);
         let R = parseFloat(document.getElementById('redflag').value);
         
-        let sacUzunluk = document.getElementById('sacUzunluk').value;
-        let sacSekil = document.getElementById('sacSekil').value;
-        let giyim = document.getElementById('giyimTarzi').value;
-        let gozlukDurumu = document.getElementById('gozluk').value;
-        let boyRengi = document.getElementById('boyEtkisi').value;
-
         let selectLig = document.getElementById('lig');
         let carpan = parseFloat(selectLig.value);
         let ligMetni = selectLig.options[selectLig.selectedIndex].text.split(" ->")[0];
@@ -473,31 +326,22 @@
             aksiyon = "🎬 ELIZABETH OLSEN FILTRESI: Arkanıza yaslanıp film açın.";
         }
 
-        // Yerel Çizim Motoru Çalıştırılıyor
-        let lokalAvatarUrl = cizCyberAvatar(sacUzunluk, sacSekil, giyim, gozlukDurumu);
-
-        // UI Güncelleme
-        document.getElementById('avatarTarget').innerHTML = `<img src="${lokalAvatarUrl}" style="width:100%; height:100%; object-fit:contain;">`;
-        let avatarWrapper = document.getElementById('avatarBg');
-        avatarWrapper.style.backgroundColor = `#${boyRengi}`; 
-        avatarWrapper.style.boxShadow = `0 0 20px #${boyRengi}`;
-
         document.getElementById('resIsim').innerText = isim.toUpperCase();
         document.getElementById('resKriterler').innerHTML = `Görsel: <b>${G}</b> | Özgüven: <b>${O}</b> | Lojistik: <b>${L}</b> | <span style="color:var(--danger-red)">RF: <b>${R}</b></span>`;
         document.getElementById('resLig').innerText = `${ligMetni} (Analist: ${op})`;
         let resFinal = document.getElementById('resFinal'); resFinal.innerText = `🎯 K-F ENDEKSİ: ${finalPuan} / 10`; resFinal.style.color = finalRenk;
         document.getElementById('resAksiyon').innerText = aksiyon; document.getElementById('resultPanel').style.display = "block";
 
-        bulutaKaydet(isim, finalPuan, finalRenk, op, R, lokalAvatarUrl);
+        bulutaKaydet(isim, finalPuan, finalRenk, op, R);
 
         document.getElementById('isim').value = ""; document.getElementById('safPuan').value = "";
         document.getElementById('ozguven').value = ""; document.getElementById('lojistik').value = ""; document.getElementById('redflag').value = "";
     }
 
-    function bulutaKaydet(isim, puan, renk, op, rf, avatar) {
+    function bulutaKaydet(isim, puan, renk, op, rf) {
         let simdi = new Date();
         let tarihTxt = simdi.toLocaleDateString('tr-TR') + " " + simdi.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
-        let yeniKayit = { id: Date.now(), tarih: tarihTxt, ad: isim.toUpperCase(), skor: puan, renk: renk, operator: op, redflag: rf, avatarUrl: avatar };
+        let yeniKayit = { id: Date.now(), tarih: tarihTxt, ad: isim.toUpperCase(), skor: puan, renk: renk, operator: op, redflag: rf };
 
         fetch(DB_URL, { method: 'POST', body: JSON.stringify(yeniKayit), headers: { 'Content-Type': 'application/json' } })
         .then(() => arsiviListele());
@@ -524,12 +368,9 @@
             kayitlar.forEach(item => {
                 let htmlIcerik = `
                     <div class="archive-item" style="border-left-color: ${item.renk}">
-                        <div class="archive-left">
-                            <img class="archive-avatar" src="${item.avatarUrl}" alt="Profil">
-                            <div class="archive-info">
-                                <span class="archive-name" title="${item.ad}">${item.ad}</span>
-                                <span class="archive-meta">📅 ${item.tarih.split(" ")[0]} | 🚩:${item.redflag}</span>
-                            </div>
+                        <div class="archive-info">
+                            <span class="archive-name" title="${item.ad}">${item.ad}</span>
+                            <span class="archive-meta">📅 ${item.tarih.split(" ")[0]} | 🚩:${item.redflag}</span>
                         </div>
                         <div class="archive-right">
                             <span class="archive-score" style="color: ${item.renk}">${item.skor}</span>
