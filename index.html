@@ -68,7 +68,42 @@
         }
 
         .sub-header { color: var(--text-muted); font-size: 0.8rem; margin-top: 6px; font-weight: bold; letter-spacing: 2px; }
-        .section-wrapper { padding: 25px; }
+        .section-wrapper { padding: 0; }
+        
+        /* TAB SİSTEMİ STİLLERİ */
+        .tabs-nav {
+            display: flex;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid var(--panel-border);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        .tab-btn.active {
+            color: var(--matrix-green);
+            background: rgba(0, 255, 102, 0.05);
+            border-bottom: 2px solid var(--matrix-green);
+            text-shadow: 0 0 8px var(--matrix-green);
+        }
+        .tab-content {
+            display: none;
+            padding: 25px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
         .form-row { display: flex; gap: 15px; margin-bottom: 18px; }
         .form-group { display: flex; flex-direction: column; width: 100%; }
         .flex-1 { flex: 1; }
@@ -85,6 +120,7 @@
             background: #050508; border: 1px solid rgba(0, 255, 102, 0.3);
             color: #fff; padding: 14px 16px; border-radius: 10px; font-size: 0.95rem;
             font-family: 'Fira Code', monospace; outline: none; box-sizing: border-box;
+            width: 100%;
         }
 
         input:focus, select:focus { border-color: var(--matrix-green); box-shadow: 0 0 15px var(--matrix-glow); }
@@ -119,7 +155,7 @@
 
         .action-plan { margin-top: 10px; line-height: 1.6; font-size: 0.9rem; color: #ffaa40; background: rgba(255, 170, 64, 0.05); padding: 14px; border-radius: 8px; border-left: 3px solid #ffaa40; }
 
-        .archive-section { margin-top: 35px; border-top: 1px solid rgba(0, 255, 102, 0.2); padding-top: 25px; }
+        .archive-section { margin-top: 35px; border-top: 1px solid rgba(0, 255, 102, 0.2); padding: 25px; }
         .archive-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .archive-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: bold; color: var(--matrix-green); }
         
@@ -131,7 +167,7 @@
         .search-input { width: 100%; background: #050508; border: 1px solid rgba(0, 255, 102, 0.2); padding: 12px 16px; border-radius: 8px; box-sizing: border-box; margin-bottom: 20px; color: #fff; }
 
         .columns-container { display: flex; gap: 15px; }
-        .column-panel { flex: 1; background: rgba(5, 5, 8, 0.6); border: 1px solid rgba(0, 255, 102, 0.15); border-radius: 12px; padding: 12px; }
+        .column-panel { flex: 1; background: rgba(5, 5, 8, 0.6); border: 1px solid rgba(0, 255, 102, 0.15); border-radius: 12px; padding: 12px; min-width: 0; }
 
         .column-title {
             font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: bold; text-align: center;
@@ -147,91 +183,324 @@
         .archive-item {
             background: #050806; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px;
             border: 1px solid rgba(0, 255, 102, 0.1); border-left: 3px solid var(--matrix-green);
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex; justify-content: space-between; align-items: center; gap: 4px;
         }
         
-        .archive-name { font-weight: bold; font-size: 0.9rem; color: #fff; display: block; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .archive-info { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+        
+        /* TIKLANABİLİR LİNK DETAYI */
+        .archive-name { 
+            font-weight: bold; font-size: 0.9rem; color: var(--matrix-green); 
+            display: block; max-width: 110px; overflow: hidden; text-overflow: ellipsis; 
+            white-space: nowrap; cursor: pointer; text-decoration: underline rgba(0, 255, 102, 0.3);
+        }
+        .archive-name:hover { color: #fff; text-shadow: 0 0 8px var(--matrix-green); }
+
         .archive-meta { font-size: 0.7rem; color: var(--text-muted); display: block; margin-top: 2px; }
-        .archive-right { display: flex; align-items: center; gap: 8px; }
+        .archive-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
         .archive-score { font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 1rem; }
         
         .delete-btn { background: transparent; border: none; color: rgba(255, 255, 255, 0.2); cursor: pointer; font-size: 0.95rem; }
         .delete-btn:hover { color: var(--danger-red); }
+
+        /* FÜTURİSTİK MATRİX MODAL PANEL (SİBER KİMLİK KARTI) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); z-index: 100; display: none;
+            justify-content: center; align-items: center; padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal-card {
+            background: #070c09; border: 1px solid var(--matrix-green);
+            box-shadow: 0 0 30px rgba(0, 255, 102, 0.3); border-radius: 16px;
+            width: 100%; max-width: 450px; padding: 25px; box-sizing: border-box;
+            position: relative; animation: modalFade 0.3s ease;
+        }
+        @keyframes modalFade { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .modal-close-corner {
+            position: absolute; top: 15px; right: 15px; background: transparent;
+            border: none; color: var(--text-muted); font-size: 1.2rem; cursor: pointer;
+        }
+        .modal-close-corner:hover { color: var(--danger-red); }
+
+        .modal-title { font-family: 'Orbitron', sans-serif; color: var(--matrix-green); font-size: 1.2rem; border-bottom: 1px solid rgba(0, 255, 102, 0.2); padding-bottom: 10px; margin-bottom: 18px; text-transform: uppercase; text-shadow: 0 0 10px var(--matrix-green); }
+        .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .modal-box { background: #020403; border: 1px solid rgba(0, 255, 102, 0.1); border-radius: 8px; padding: 8px 10px; text-align: center; }
+        .modal-box span { font-size: 0.65rem; color: var(--text-muted); display: block; margin-bottom: 3px; text-transform: uppercase; }
+        .modal-box b { font-size: 1rem; color: #fff; }
+        
+        .modal-full-box { background: #020403; border: 1px solid rgba(0, 255, 102, 0.1); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+        .modal-full-box span { font-size: 0.65rem; color: var(--text-muted); display: block; margin-bottom: 4px; text-transform: uppercase; }
+        .modal-full-box p { margin: 0; font-size: 0.85rem; line-height: 1.5; }
+        .modal-full-box b { color: #fff; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
 <canvas id="matrixCanvas"></canvas>
 
+<!-- PROFİL AYRINTI MODAL EKRANI -->
+<div class="modal-overlay" id="profileModal" onclick="closeModal(event)">
+    <div class="modal-card">
+        <button class="modal-close-corner" onclick="document.getElementById('profileModal').style.display='none'">✕</button>
+        <div class="modal-title" id="m_isim">HEDEF PROFiLi</div>
+        
+        <!-- Puanlama Durumları -->
+        <div class="modal-grid">
+            <div class="modal-box"><span>Görsel Puan</span><b id="m_g">-</b></div>
+            <div class="modal-box"><span>Özgüven</span><b id="m_o">-</b></div>
+            <div class="modal-box"><span>Lojistik</span><b id="m_l">-</b></div>
+            <div class="modal-box"><span style="color:var(--danger-red)">Red Flag</span><b id="m_rf" style="color:var(--danger-red)">-</b></div>
+        </div>
+
+        <!-- YENİ ENTEGRELİ FİZİKSEL VE VIBE DETAY BÖLÜMÜ -->
+        <div class="modal-title" style="font-size: 0.85rem; margin-top: 15px; margin-bottom: 10px; border-bottom: 1px solid rgba(0, 255, 102, 0.1); padding-bottom: 5px;">🧬 FİZİKSEL VE VIBE DOSYASI</div>
+        <div class="modal-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 10px;">
+            <div class="modal-box"><span>Boy</span><b id="m_boy">-</b></div>
+            <div class="modal-box"><span>Giyim Tarzı</span><b id="m_giyim">-</b></div>
+            <div class="modal-box"><span>Gözlük</span><b id="m_gozluk">-</b></div>
+            <div class="modal-box"><span>Dövme</span><b id="m_dovme">-</b></div>
+            <div class="modal-box"><span>Saç Rengi</span><b id="m_sacRenk">-</b></div>
+            <div class="modal-box"><span>Saç Uzunluğu</span><b id="m_sacUzunluk">-</b></div>
+            <div class="modal-box"><span>Saç Şekli</span><b id="m_sacSekil">-</b></div>
+            <div class="modal-box"><span>Dış Vibe (Aura)</span><b id="m_vibe" style="color:var(--matrix-green)">-</b></div>
+        </div>
+
+        <div class="modal-full-box">
+            <span>Operasyon Sahası (Lig)</span>
+            <p id="m_lig" style="color:#fff; font-weight: bold;"></p>
+        </div>
+
+        <div class="modal-full-box">
+            <span>K-F Analiz Endeksi</span>
+            <p id="m_skor" style="font-family:'Orbitron',sans-serif; font-size: 1.2rem; font-weight: 800; text-shadow: 0 0 10px currentColor;"></p>
+        </div>
+
+        <div class="modal-full-box" style="border-left: 3px solid #ffaa40; margin-bottom: 0;">
+            <span style="color:#ffaa40">Kayıtlı Stratejik Emir</span>
+            <p id="m_emir" style="color:#ffaa40; font-style: italic; margin-top: 4px;"></p>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="header">
         <h1>⚡ FK GIRL NETWORK ⚡</h1>
         <div class="sub-header">Analiz Tabanlı Kız İstihbarat Ağı</div>
     </div>
+
+    <!-- SEKMELİ GEÇİŞ MENÜSÜ -->
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('standardTab', this)">Standart Giriş</button>
+        <button class="tab-btn" onclick="switchTab('premiumTab', this)">👑 Premium Profiler</button>
+    </div>
     
     <div class="section-wrapper">
-        <div class="form-row">
-            <div class="form-group flex-1">
-                <label for="operator">Analist Girişi</label>
-                <select id="operator">
-                    <option value="👑 KAAN">KAAN</option>
-                    <option value="⚔️ FURKAN">FURKAN</option>
-                </select>
+        
+        <!-- SEKME 1: STANDART GİRİŞ PANELİ -->
+        <div id="standardTab" class="tab-content active">
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="operator">Analist Girişi</label>
+                    <select id="operator">
+                        <option value="👑 KAAN">KAAN</option>
+                        <option value="⚔️ FURKAN">FURKAN</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label for="isim">Hedef Kod Adı</label>
+                    <input type="text" id="isim" placeholder="Örn: Merve">
+                </div>
             </div>
-            <div class="form-group flex-1">
-                <label for="isim">Hedef Kod Adı</label>
-                <input type="text" id="isim" placeholder="Örn: Merve">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="safPuan">1. Saf Görsel Puan <span>(Ağırlık: %50)</span></label>
+                    <input type="number" id="safPuan" step="0.1" min="1" max="10" placeholder="1.0 - 10.0 arası veri girin">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="ozguven">2. Özgüven Seviyesi <span>(%30)</span></label>
+                    <input type="number" id="ozguven" step="0.1" min="1" max="10" placeholder="0 - 10">
+                </div>
+                <div class="form-group flex-1">
+                    <label for="lojistik">3. Lojistik Kolaylık <span>(%20)</span></label>
+                    <input type="number" id="lojistik" step="0.1" min="1" max="10" placeholder="0 - 10">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="redflag">4. Uyumsuzluk / Red Flag Filtresi <span class="red-span">(Ceza Katsayısı)</span></label>
+                    <input type="number" id="redflag" step="0.1" min="1" max="10" placeholder="Yaşam tarzı, toksiklik (1-10)">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="lig">5. Gerçekçilik Filtresi (Ulaşılabilirlik Ligi)</label>
+                    <select id="lig">
+                        <option value="1.0">Reel Lig (Aynı Ortam) -> x1.0</option>
+                        <option value="0.7">Yarı-Reel Lig (Sosyal Medya) -> x0.7</option>
+                        <option value="0.15">Ulaşılmaz Lig (Elizabeth Olsen Modu) -> x0.15</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-submit" onclick="matrisiHesapla(false)">Matrisi Tetikle & Buluta Gönder</button>
+        </div>
+
+        <!-- SEKME 2: PREMIUM PROFILER PANELİ (YENİ SİBER GEÇİŞ ENTEGRELİ) -->
+        <div id="premiumTab" class="tab-content">
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_operator">Analist Girişi</label>
+                    <select id="p_operator">
+                        <option value="👑 KAAN">KAAN</option>
+                        <option value="⚔️ FURKAN">FURKAN</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_isim">Hedef Kod Adı</label>
+                    <input type="text" id="p_isim" placeholder="Örn: Selin">
+                </div>
+            </div>
+
+            <!-- CORE PUANLAMA KRİTERLERİ -->
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_safPuan">Saf Görsel Puan <span>(%50)</span></label>
+                    <input type="number" id="p_safPuan" step="0.1" min="1" max="10" placeholder="1-10">
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_ozguven">Özgüven Seviyeniz <span>(%30)</span></label>
+                    <input type="number" id="p_ozguven" step="0.1" min="1" max="10" placeholder="1-10">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_lojistik">Lojistik Kolaylık <span>(%20)</span></label>
+                    <input type="number" id="p_lojistik" step="0.1" min="1" max="10" placeholder="1-10">
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_redflag">Uyumsuzluk / Red Flag <span class="red-span">(Ceza)</span></label>
+                    <input type="number" id="p_redflag" step="0.1" min="1" max="10" placeholder="1-10">
+                </div>
+            </div>
+
+            <!-- FİZİKSEL PARAMETRELER -->
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_boy">Boy Filtresi</label>
+                    <select id="p_boy">
+                        <option value="1.50 - 1.60">1.50 - 1.60 m</option>
+                        <option value="1.61 - 1.70">1.61 - 1.70 m</option>
+                        <option value="1.71 - 1.80">1.71 - 1.80 m</option>
+                        <option value="1.80+">1.80+ m</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_giyim">Giyim Tarzı / Stil</label>
+                    <select id="p_giyim">
+                        <option value="Günlük-Basit">Günlük-Basit</option>
+                        <option value="Resmi">Resmi</option>
+                        <option value="Gotik">Gotik</option>
+                        <option value="Renkli">Renkli</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_gozluk">Gözlük Durumu</label>
+                    <select id="p_gozluk">
+                        <option value="Yok">Yok</option>
+                        <option value="Var">Var</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_dovme">Dövme Durumu</label>
+                    <select id="p_dovme">
+                        <option value="Yok">Yok</option>
+                        <option value="Var">Var</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_saçRenk">Saç Rengi</label>
+                    <select id="p_saçRenk">
+                        <option value="Siyah">Siyah</option>
+                        <option value="Kahverengi">Kahverengi</option>
+                        <option value="Sarı">Sarı</option>
+                        <option value="Kızıl">Kızıl</option>
+                        <option value="Mor">Mor</option>
+                        <option value="Diğer">Diğer</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_saçUzunluk">Saç Uzunluğu</label>
+                    <select id="p_saçUzunluk">
+                        <option value="Kısa">Kısa</option>
+                        <option value="Omuz Hizası">Omuz Hizası</option>
+                        <option value="Uzun">Uzun</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label for="p_saçŞekil">Saç Tipi / Şekli</label>
+                    <select id="p_saçŞekil">
+                        <option value="Düz">Düz</option>
+                        <option value="Dalgalı">Dalgalı</option>
+                        <option value="Kıvırcık">Kıvırcık</option>
+                    </select>
+                </div>
+                <div class="form-group flex-1">
+                    <label for="p_vibe">Dış Vibe (Aura)</label>
+                    <select id="p_vibe">
+                        <option value="Soğuk">Soğuk</option>
+                        <option value="Enerjik">Enerjik</option>
+                        <option value="Gizemli">Gizemli</option>
+                        <option value="Entelektüel">Entelektüel</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="p_lig">Gerçekçilik Filtresi (Ulaşılabilirlik Ligi)</label>
+                    <select id="p_lig">
+                        <option value="1.0">Reel Lig (Aynı Ortam) -> x1.0</option>
+                        <option value="0.7">Yarı-Reel Lig (Sosyal Medya) -> x0.7</option>
+                        <option value="0.15">Ulaşılmaz Lig (Elizabeth Olsen Modu) -> x0.15</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-submit" style="border-color: #ffaa40; color: #ffaa40;" onclick="matrisiHesapla(true)">👑 Premium Analizi Tetikle</button>
+        </div>
+
+        <!-- ORTAK ANALİZ ÇIKTI ALANI -->
+        <div style="padding: 0 25px 25px 25px;">
+            <div class="result-panel" id="resultPanel">
+                <div class="result-title">📊 Bulut Çıktı Raporu</div>
+                <div class="result-item">Seçilen Hedef: <b id="resIsim">-</b></div>
+                <div class="result-item" id="resKriterler">-</div>
+                <div class="result-item">Aktif Filtre: <b id="resLig">-</b></div>
+                <div class="final-score" id="resFinal">-</div>
+                <div style="font-weight: bold; color: var(--matrix-green); font-size: 0.8rem; text-transform: uppercase; margin-top: 15px;">📍 Operasyonel Emir</div>
+                <div class="action-plan" id="resAksiyon"></div>
             </div>
         </div>
 
-        <div class="form-row">
-            <div class="form-group">
-                <label for="safPuan">1. Saf Görsel Puan <span>(Ağırlık: %50)</span></label>
-                <input type="number" id="safPuan" step="0.1" min="1" max="10" placeholder="1.0 - 10.0 arası veri girin">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group flex-1">
-                <label for="ozguven">2. Özgüven Seviyesi <span>(%30)</span></label>
-                <input type="number" id="ozguven" step="0.1" min="1" max="10" placeholder="0 - 10">
-            </div>
-            <div class="form-group flex-1">
-                <label for="lojistik">3. Lojistik Kolaylık <span>(%20)</span></label>
-                <input type="number" id="lojistik" step="0.1" min="1" max="10" placeholder="0 - 10">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="redflag">4. Uyumsuzluk / Red Flag Filtresi <span class="red-span">(Ceza Katsayısı)</span></label>
-                <input type="number" id="redflag" step="0.1" min="1" max="10" placeholder="Yaşam tarzı, toksiklik (1-10)">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="lig">5. Gerçekçilik Filtresi (Ulaşılabilirlik Ligi)</label>
-                <select id="lig">
-                    <option value="1.0">Reel Lig (Aynı Ortam) -> x1.0</option>
-                    <option value="0.7">Yarı-Reel Lig (Sosyal Medya) -> x0.7</option>
-                    <option value="0.15">Ulaşılmaz Lig (Elizabeth Olsen Modu) -> x0.15</option>
-                </select>
-            </div>
-        </div>
-
-        <button class="btn-submit" onclick="matrisiHesapla()">Matrisi Tetikle & Buluta Gönder</button>
-
-        <div class="result-panel" id="resultPanel">
-            <div class="result-title">📊 Bulut Çıktı Raporu</div>
-            <div class="result-item">Seçilen Hedef: <b id="resIsim">-</b></div>
-            <div class="result-item" id="resKriterler">-</div>
-            <div class="result-item">Aktif Filtre: <b id="resLig">-</b></div>
-            <div class="final-score" id="resFinal">-</div>
-            <div style="font-weight: bold; color: var(--matrix-green); font-size: 0.8rem; text-transform: uppercase; margin-top: 15px;">📍 Operasyonel Emir</div>
-            <div class="action-plan" id="resAksiyon"></div>
-        </div>
-
+        <!-- CANLI ORTAK ARŞİV PANELİ -->
         <div class="archive-section">
             <div class="archive-header">
                 <div class="archive-title">🗄️ Canlı Ortak Veri Havuzu</div>
@@ -277,22 +546,42 @@
         setInterval(drawMatrix, 30);
     } catch(e) { console.log("Canvas animation bypassed for compatibility."); }
 
-    // --- KENDİ ÜCRETSİZ FIREBASE URL BAĞLANTIN ---
-    // Örn: "https://fk-network-default-rtdb.firebaseio.com/arsiv.json" şeklinde olmalı
-    const DB_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com//arsiv.json";
-    const BASE_DELETE_URL = "https://fk-network-48a6c-default-rtdb.firebaseio.com//arsiv/";
+    // --- SECURE URL SANITIZER (ÇİFT EĞİK ÇİZGİ ENGELLEYİCİ) ---
+    let raw_url = "https://fk-network-48a6c-default-rtdb.firebaseio.com/"; // Kendi Firebase linkini buraya yapıştır
+    
+    // Link sonundaki eğik çizgiyi otomatik olarak kesip tek tipleştirir
+    raw_url = raw_url.trim();
+    while (raw_url.endsWith("/")) {
+        raw_url = raw_url.slice(0, -1);
+    }
+
+    const DB_URL = raw_url + "/arsiv.json";
+    const BASE_DELETE_URL = raw_url + "/arsiv/";
+
+    let localCacheData = {}; // Pop-up'ta listelemek için bulut verisini önbellekte tutar
 
     window.onload = function() { arsiviListele(); setInterval(arsiviListele, 5000); };
 
-    function matrisiHesapla() {
-        let op = document.getElementById('operator').value;
-        let isim = document.getElementById('isim').value.trim();
-        let G = parseFloat(document.getElementById('safPuan').value);
-        let O = parseFloat(document.getElementById('ozguven').value);
-        let L = parseFloat(document.getElementById('lojistik').value);
-        let R = parseFloat(document.getElementById('redflag').value);
+    function switchTab(tabId, btn) {
+        let contents = document.getElementsByClassName('tab-content');
+        for (let i = 0; i < contents.length; i++) contents[i].classList.remove('active');
+        let buttons = document.getElementsByClassName('tab-btn');
+        for (let i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // ORTAK HESAPLAMA VE ANALİZ MOTORU
+    function matrisiHesapla(isPremium) {
+        let prefix = isPremium ? "p_" : "";
+        let op = document.getElementById(prefix + 'operator').value;
+        let isim = document.getElementById(prefix + 'isim').value.trim();
+        let G = parseFloat(document.getElementById(prefix + 'safPuan').value);
+        let O = parseFloat(document.getElementById(prefix + 'ozguven').value);
+        let L = parseFloat(document.getElementById(prefix + 'lojistik').value);
+        let R = parseFloat(document.getElementById(prefix + 'redflag').value);
         
-        let selectLig = document.getElementById('lig');
+        let selectLig = document.getElementById(prefix + 'lig');
         let carpan = parseFloat(selectLig.value);
         let ligMetni = selectLig.options[selectLig.selectedIndex].text.split(" ->")[0];
 
@@ -303,6 +592,7 @@
             return;
         }
 
+        // K-F v5.5 Kusursuz Matematik Modeli
         let pozitifSkor = (G * 0.5) + (O * 0.3) + (L * 0.2);
         let ceza = (R - 1) * 0.22; if (ceza < 0) ceza = 0;
         let hamSkor = pozitifSkor - ceza;
@@ -332,16 +622,46 @@
         let resFinal = document.getElementById('resFinal'); resFinal.innerText = `🎯 K-F ENDEKSİ: ${finalPuan} / 10`; resFinal.style.color = finalRenk;
         document.getElementById('resAksiyon').innerText = aksiyon; document.getElementById('resultPanel').style.display = "block";
 
-        bulutaKaydet(isim, finalPuan, finalRenk, op, R);
+        // Premium Detay Paketleme Mekanizması
+        let pData = null;
+        if(isPremium) {
+            pData = {
+                boy: document.getElementById('p_boy').value,
+                giyim: document.getElementById('p_giyim').value,
+                gozluk: document.getElementById('p_gozluk').value,
+                dovme: document.getElementById('p_dovme').value,
+                sacRenk: document.getElementById('p_saçRenk').value,
+                sacUzunluk: document.getElementById('p_saçUzunluk').value,
+                sacSekil: document.getElementById('p_saçŞekil').value,
+                vibe: document.getElementById('p_vibe').value
+            };
+        }
 
-        document.getElementById('isim').value = ""; document.getElementById('safPuan').value = "";
-        document.getElementById('ozguven').value = ""; document.getElementById('lojistik').value = ""; document.getElementById('redflag').value = "";
+        bulutaKaydet(isim, finalPuan, finalRenk, op, R, G, O, L, ligMetni, aksiyon, pData);
+
+        // Girişleri sıfırla
+        document.getElementById(prefix + 'isim').value = ""; document.getElementById(prefix + 'safPuan').value = "";
+        document.getElementById(prefix + 'ozguven').value = ""; document.getElementById(prefix + 'lojistik').value = ""; document.getElementById(prefix + 'redflag').value = "";
     }
 
-    function bulutaKaydet(isim, puan, renk, op, rf) {
+    function bulutaKaydet(isim, puan, renk, op, rf, g, o, l, lig, emir, physicals) {
         let simdi = new Date();
         let tarihTxt = simdi.toLocaleDateString('tr-TR') + " " + simdi.toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
-        let yeniKayit = { id: Date.now(), tarih: tarihTxt, ad: isim.toUpperCase(), skor: puan, renk: renk, operator: op, redflag: rf };
+        
+        let yeniKayit = { 
+            id: Date.now(), tarih: tarihTxt, ad: isim.toUpperCase(), 
+            skor: puan, renk: renk, operator: op, redflag: rf,
+            detayG: g, detayO: o, detayL: l, detayLig: lig, detayEmir: emir,
+            // Fiziksel Profil ve Vibe Veri Alanları:
+            boy: physicals ? physicals.boy : "Girilmedi",
+            giyim: physicals ? physicals.giyim : "Girilmedi",
+            gozluk: physicals ? physicals.gozluk : "Girilmedi",
+            dovme: physicals ? physicals.dovme : "Girilmedi",
+            sacRenk: physicals ? physicals.sacRenk : "Girilmedi",
+            sacUzunluk: physicals ? physicals.sacUzunluk : "Girilmedi",
+            sacSekil: physicals ? physicals.sacSekil : "Girilmedi",
+            vibe: physicals ? physicals.vibe : "Girilmedi"
+        };
 
         fetch(DB_URL, { method: 'POST', body: JSON.stringify(yeniKayit), headers: { 'Content-Type': 'application/json' } })
         .then(() => arsiviListele());
@@ -362,6 +682,7 @@
                 return;
             }
 
+            localCacheData = data; // Tıklanan profil verisini lokal bellekten hızlı çekmek için senkronize eder
             let kayitlar = Object.keys(data).map(key => ({firebaseKey: key, ...data[key]})).reverse();
             let kaanSayac = 0; let furkanSayac = 0;
 
@@ -369,7 +690,7 @@
                 let htmlIcerik = `
                     <div class="archive-item" style="border-left-color: ${item.renk}">
                         <div class="archive-info">
-                            <span class="archive-name" title="${item.ad}">${item.ad}</span>
+                            <span class="archive-name" title="Siber Raporu Aç" onclick="openProfile('${item.firebaseKey}')">${item.ad}</span>
                             <span class="archive-meta">📅 ${item.tarih.split(" ")[0]} | 🚩:${item.redflag}</span>
                         </div>
                         <div class="archive-right">
@@ -389,6 +710,59 @@
             if(kaanSayac === 0) kaanDiv.innerHTML = `<div style="color: var(--text-muted); font-size:0.75rem; text-align:center; padding:10px;">Kayıt Yok</div>`;
             if(furkanSayac === 0) furkanDiv.innerHTML = `<div style="color: var(--text-muted); font-size:0.75rem; text-align:center; padding:10px;">Kayıt Yok</div>`;
         }).catch(err => console.log("Cloud sync..."));
+    }
+
+    // PROFİL DETAY MODAL EKRANI
+    function openProfile(key) {
+        let target = localCacheData[key];
+        if(!target) return;
+
+        let g = target.detayG !== undefined ? target.detayG : "-";
+        let o = target.detayO !== undefined ? target.detayO : "-";
+        let l = target.detayL !== undefined ? target.detayL : "-";
+        let lig = target.detayLig ? target.detayLig : "Klasik Kayıt (Filtre Verisi Yok)";
+        let emir = target.detayEmir ? target.detayEmir : "Eski sürüm operasyon emri.";
+
+        // Yeni karakteristik özelliklerin modal kartına bindirilmesi
+        let boy = target.boy ? target.boy : "Girilmedi";
+        let giyim = target.giyim ? target.giyim : "Girilmedi";
+        let gozluk = target.gozluk ? target.gozluk : "Girilmedi";
+        let dovme = target.dovme ? target.dovme : "Girilmedi";
+        let sacRenk = target.sacRenk ? target.sacRenk : "Girilmedi";
+        let sacUzunluk = target.sacUzunluk ? target.sacUzunluk : "Girilmedi";
+        let sacSekil = target.sacSekil ? target.sacSekil : "Girilmedi";
+        let vibe = target.vibe ? target.vibe : "Girilmedi";
+
+        document.getElementById('m_isim').innerText = `⚡ ${target.ad} PROFiLi ⚡`;
+        document.getElementById('m_g').innerText = g;
+        document.getElementById('m_o').innerText = o;
+        document.getElementById('m_l').innerText = l;
+        document.getElementById('m_rf').innerText = target.redflag;
+        
+        document.getElementById('m_boy').innerText = boy;
+        document.getElementById('m_giyim').innerText = giyim;
+        document.getElementById('m_gozluk').innerText = gozluk;
+        document.getElementById('m_dovme').innerText = dovme;
+        document.getElementById('m_sacRenk').innerText = sacRenk;
+        document.getElementById('m_sacUzunluk').innerText = sacUzunluk;
+        document.getElementById('m_sacSekil').innerText = sacSekil;
+        document.getElementById('m_vibe').innerText = vibe;
+
+        document.getElementById('m_lig').innerText = lig;
+        
+        let mSkor = document.getElementById('m_skor');
+        mSkor.innerText = `🎯 PUAN: ${target.skor} / 10`;
+        mSkor.style.color = target.renk;
+        
+        document.getElementById('m_emir').innerText = emir;
+
+        document.getElementById('profileModal').style.display = "flex";
+    }
+
+    function closeModal(e) {
+        if(e.target.id === "profileModal") {
+            document.getElementById('profileModal').style.display = "none";
+        }
     }
 
     function buluttanSil(key) {
