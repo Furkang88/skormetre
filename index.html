@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-F MATRIX NETWORK v8.8</title>
+    <title>FK GIRL NETWORK</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Orbitron:wght@500;800&display=swap');
 
@@ -165,8 +165,8 @@
 
 <div class="container">
     <div class="header">
-        <h1>⚡ K-F MATRIX NETWORK v8.8 ⚡</h1>
-        <div class="sub-header">Split-Screen Bulut İstihbarat Ağı</div>
+        <h1>⚡ FK GIRL NETWORK ⚡</h1>
+        <div class="sub-header">Analiz Tabanlı Kız İstihbarat Ağı</div>
     </div>
     
     <div class="section-wrapper">
@@ -242,12 +242,12 @@
 
             <div class="columns-container">
                 <div class="column-panel">
-                    <div class="column-title title-kaan">👑 Kaan Operasyonları</div>
+                    <div class="column-title title-kaan">Kaan Operasyonları</div>
                     <div class="archive-list" id="kaanList"></div>
                 </div>
                 
                 <div class="column-panel">
-                    <div class="column-title title-furkan">⚔️ Furkan Operasyonları</div>
+                    <div class="column-title title-furkan">Furkan Operasyonları</div>
                     <div class="archive-list" id="furkanList"></div>
                 </div>
             </div>
@@ -364,6 +364,7 @@
             let kaanSayac = 0; let furkanSayac = 0;
 
             kayitlar.forEach(item => {
+                let opIsim = item.operator ? item.operator.split(" ")[1] : "BİLİNMEYEN";
                 let htmlIcerik = `
                     <div class="archive-item" style="border-left-color: ${item.renk}">
                         <div class="archive-info">
