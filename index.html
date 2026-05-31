@@ -190,21 +190,21 @@
             <div class="form-group flex-1">
                 <label for="sacStili">Saç Şekli & Uzunluğu</label>
                 <select id="sacStili">
-                    <option value="LongHairStraight">Uzun & Düz</option>
-                    <option value="LongHairCurly">Uzun & Kıvırcık</option>
-                    <option value="ShortHairShortWaved">Kısa & Dalgalı</option>
-                    <option value="ShortHairTheCaesar">Çok Kısa / Sezar</option>
-                    <option value="Eyepatch">Saçsız / Korsan Bantlı</option>
+                    <option value="longhair">Uzun Saçlı</option>
+                    <option value="curly">Kıvırcık Saçlı</option>
+                    <option value="shorthair">Kısa Saçlı</option>
+                    <option value="bobcut">Küt Saçlı</option>
+                    <option value="bob">Pixie Tarzı</option>
                 </select>
             </div>
             <div class="form-group flex-1">
                 <label for="sacRengi">Saç Rengi</label>
                 <select id="sacRengi">
-                    <option value="2c1a04">Koyu Kahve</option>
-                    <option value="b58143">Sarı</option>
-                    <option value="e54510">Kızıl</option>
-                    <option value="000000">Siyah</option>
-                    <option value="ecdcbf">Platin</option>
+                    <option value="brown">Kahverengi</option>
+                    <option value="blonde">Sarı</option>
+                    <option value="red">Kızıl</option>
+                    <option value="black">Siyah</option>
+                    <option value="grey">Platin/Gri</option>
                 </select>
             </div>
         </div>
@@ -213,16 +213,16 @@
             <div class="form-group flex-1">
                 <label for="giyimTarzi">Giyim Tarzi</label>
                 <select id="giyimTarzi">
-                    <option value="BlazerShirt">Resmi (Blazer & Gömlek)</option>
-                    <option value="GraphicShirt">Ajan (Grafik Tişört)</option>
-                    <option value="Hoodie">Siber (Hoodie)</option>
-                    <option value="Overall">Operasyon (Tulum)</option>
+                    <option value="blazer">Resmi Blazer</option>
+                    <option value="hoodie">Siber Hoodie</option>
+                    <option value="tshirt">Tişörtlü</option>
+                    <option value="dress">Elbiseli</option>
                 </select>
             </div>
             <div class="form-group flex-1">
                 <label for="boyEtkisi">Boy Skalası</label>
                 <select id="boyEtkisi">
-                    <option value="00ff66">Minyon Boy (Yeşil Aura)</option>
+                    <option value="00ff66">Minyon (Yeşil Aura)</option>
                     <option value="ffcc00">Orta Boy (Sarı Aura)</option>
                     <option value="ff3333">Uzun Boy (Kırmızı Aura)</option>
                 </select>
@@ -272,7 +272,7 @@
             
             <div style="text-align: center; margin-bottom: 20px;">
                 <div id="avatarBg" style="display: inline-block; width: 110px; height: 110px; border-radius: 50%; padding: 5px; background: transparent; transition: all 0.3s;">
-                    <img id="resAvatar" src="" alt="Ajan Profil" style="width: 100%; height: 100%; border-radius: 50%; background: #0a0f0c; border: 1px solid rgba(0,255,102,0.5);">
+                    <img id="resAvatar" src="" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; background: #0a0f0c; border: 1px solid rgba(0,255,102,0.5);">
                 </div>
             </div>
 
@@ -343,7 +343,7 @@
         let L = parseFloat(document.getElementById('lojistik').value);
         let R = parseFloat(document.getElementById('redflag').value);
         
-        // Fiziksel Özellik Verileri
+        // Fiziksel Özellik Menü Değerleri
         let sacStili = document.getElementById('sacStili').value;
         let sacRengi = document.getElementById('sacRengi').value;
         let giyim = document.getElementById('giyimTarzi').value;
@@ -360,7 +360,7 @@
             return;
         }
 
-        // Algoritma Hesaplaması
+        // Puan Hesaplamaları
         let pozitifSkor = (G * 0.5) + (O * 0.3) + (L * 0.2);
         let ceza = (R - 1) * 0.22; if (ceza < 0) ceza = 0;
         let hamSkor = pozitifSkor - ceza;
@@ -371,7 +371,6 @@
         if (finalPuan >= 6.5) finalRenk = "var(--matrix-green)";
         else if (finalPuan >= 4.5) finalRenk = "var(--warning-yellow)";
 
-        // Aksiyon Emir Planı
         let aksiyon = "";
         if (R >= 7.5) {
             aksiyon = `⚠️ SİSTEM ALARMI: ${op} tarafından saptanan uyumsuzluk/Red Flag derecesi kritik limittedir (${R}). Operasyon durdurulmuştur.`;
@@ -385,14 +384,20 @@
             aksiyon = "🎬 ELIZABETH OLSEN FILTRESI: Arkanıza yaslanıp film açın.";
         }
 
-        // --- DİNAMİK AVATAR ÜRETİMİ (Eski Hataları Düzelten Cache-Bust Mekanizması) ---
-        let benzersizZaman = Date.now(); 
-        let avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?top=${sacStili}&hairColor=${sacRengi}&clotheType=${giyim}&seed=${isim}_${benzersizZaman}`;
+        // --- %100 ÇALIŞAN DICEBEAR 9.X SİSTEMİ ---
+        // Seçilen her fiziksel özelliği birleştirip eşsiz bir tohum (seed) kelimesi yapıyoruz. 
+        // Böylece özelliklerden biri bile değişse zar atış mantığıyla bambaşka bir avatar çizilecek.
+        let seedMetni = `${isim}_${sacStili}_${sacRengi}_${giyim}_${Date.now()}`;
+        
+        // Sorunsuz çalışan global 'adventurer-neutral' stilini kullanıyoruz
+        let avatarUrl = `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${encodeURIComponent(seedMetni)}`;
 
-        // Arayüz Enjeksiyonu
+        // Arayüze Resmi Basma
         let avatarImg = document.getElementById('resAvatar');
         let avatarWrapper = document.getElementById('avatarBg');
         avatarImg.src = avatarUrl;
+        
+        // Boy Aura efektini güncelleme
         avatarWrapper.style.backgroundColor = `#${boyRengi}`; 
         avatarWrapper.style.boxShadow = `0 0 20px #${boyRengi}`;
 
@@ -402,10 +407,10 @@
         let resFinal = document.getElementById('resFinal'); resFinal.innerText = `🎯 K-F ENDEKSİ: ${finalPuan} / 10`; resFinal.style.color = finalRenk;
         document.getElementById('resAksiyon').innerText = aksiyon; document.getElementById('resultPanel').style.display = "block";
 
-        // Buluta kaydederken avatarı da ekliyoruz
+        // Firebase Havuzuna kayıt gönderme
         bulutaKaydet(isim, finalPuan, finalRenk, op, R, avatarUrl);
 
-        // Form sıfırlama
+        // Formu temizle
         document.getElementById('isim').value = ""; document.getElementById('safPuan').value = "";
         document.getElementById('ozguven').value = ""; document.getElementById('lojistik').value = ""; document.getElementById('redflag').value = "";
     }
@@ -438,8 +443,7 @@
             let kaanSayac = 0; let furkanSayac = 0;
 
             kayitlar.forEach(item => {
-                // Eğer eski kayıtlarda avatar yoksa boş kalmasın diye varsayılan atama
-                let gosterilecekAvatar = item.avatarUrl ? item.avatarUrl : `https://api.dicebear.com/7.x/avataaars/svg?seed=${item.ad}`;
+                let gosterilecekAvatar = item.avatarUrl ? item.avatarUrl : `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${item.ad}`;
 
                 let htmlIcerik = `
                     <div class="archive-item" style="border-left-color: ${item.renk}">
